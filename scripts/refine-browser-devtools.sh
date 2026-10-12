@@ -41,7 +41,7 @@ find_browser_window(){
 capture_browser(){
   local url="$1" target="$2" panel="${3:-elements}" profile="$4"
   rm -rf "$profile"
-  "$BROWSER" --no-sandbox --disable-dev-shm-usage --disable-gpu \
+  "$BROWSER" --no-sandbox --test-type --disable-dev-shm-usage --disable-gpu \
     --no-first-run --no-default-browser-check --disable-search-engine-choice-screen \
     --disable-translate --disable-features=Translate,TranslateUI \
     --user-data-dir="$profile" --start-maximized --auto-open-devtools-for-tabs \
@@ -52,15 +52,23 @@ capture_browser(){
   wmctrl -i -r "$win" -b add,maximized_vert,maximized_horz || true
   xdotool windowactivate --sync "$win" || true
   xdotool key Escape || true
-  sleep 3
+  sleep 2
+
   if [[ "$panel" == network ]]; then
     eval "$(xdotool getwindowgeometry --shell "$win")"
-    local x=$((WIDTH-270))
-    xdotool mousemove --window "$win" "$x" 150 click 1
+    # Focus inside DevTools, then use its own command menu instead of clicking a
+    # fragile tab coordinate (which can hit browser chrome/translation UI).
+    xdotool mousemove --window "$win" $((WIDTH-120)) 420 click 1
+    sleep .5
+    xdotool key ctrl+shift+p
+    sleep .8
+    xdotool type --delay 35 'Show Network'
+    xdotool key Return
     sleep 2
     xdotool key ctrl+r
     sleep 5
   fi
+
   import -window "$win" "$target"
   kill "$pid" 2>/dev/null || true
   pkill -P "$pid" 2>/dev/null || true
@@ -75,12 +83,10 @@ start_vite(){
 }
 stop_vite(){ pkill -f 'vite.*5173' 2>/dev/null || true; sleep 1; }
 
-# L1: basic Browser DevTools on the first React runnable example.
 start_vite examples/lecture-03-react-basics
 capture_browser http://127.0.0.1:5173/ "$OUT/lecture-01-browser-devtools.png" elements /tmp/refine-l01
 stop_vite
 
-# L5: Network on the actual local Task API request.
 (cd "$ROOT/services/task-api" && npm start >/tmp/refine-api.log 2>&1) & api_pid=$!; pids+=("$api_pid")
 wait_http http://127.0.0.1:3001/tasks
 start_vite examples/lecture-05-routing-api
@@ -104,8 +110,10 @@ capture_expo(){
   sleep 2
 }
 
-# L7/L8: real Browser DevTools for the runnable Expo Web target.
 capture_expo 07 examples/lecture-07-react-native-basics 4177 elements 0
 capture_expo 08 examples/lecture-08-navigation-state-data 4178 network 1
 
-identify "$OUT"/lecture-01-browser-devtools.png "$OUT"/lecture-05-browser-network.png "$OUT"/lecture-07-expo-web-devtools.png "$OUT"/lecture-08-expo-web-devtools.png
+identify "$OUT"/lecture-01-browser-devtools.png \
+         "$OUT"/lecture-05-browser-network.png \
+         "$OUT"/lecture-07-expo-web-devtools.png \
+         "$OUT"/lecture-08-expo-web-devtools.png

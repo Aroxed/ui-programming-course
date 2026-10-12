@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Lecture 9 Platform Features",
+    "slug": "lecture-09-platform-features",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Дозволити застосунку використовувати камеру для прикріплення фото до завдання."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Дозволити застосунку додати поточне місце до завдання."
+        }
+      ],
+      "expo-notifications"
+    ]
+  }
+}

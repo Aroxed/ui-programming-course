@@ -33,6 +33,7 @@ jobs:
       - run: npm run screenshots:06
       - run: npm run screenshots:07
       - run: npm run screenshots:08
+      - run: npm run screenshots:09
       - uses: actions/upload-artifact@v4
         with:
           name: course-screenshots
@@ -46,7 +47,7 @@ jobs:
             exit 0
           fi
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "4189822+github-actions[bot]@users.noreply.github.com"
           git add screenshots
           git commit -m "Refresh course example screenshots"
           git pull --rebase origin main

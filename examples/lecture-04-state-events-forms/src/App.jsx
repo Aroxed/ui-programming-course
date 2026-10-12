@@ -3,28 +3,28 @@ import { useEffect, useState } from 'react';
 const initialTasks = [
   {
     id: 1,
-    title: 'Review React state notes',
+    title: 'Повторити нотатки про стан React',
     priority: 'medium',
     completed: false,
   },
   {
     id: 2,
-    title: 'Prepare laboratory checklist',
+    title: 'Підготувати чекліст лабораторної роботи',
     priority: 'high',
     completed: true,
   },
   {
     id: 3,
-    title: 'Read form validation guide',
+    title: 'Прочитати матеріал про валідацію форм',
     priority: 'low',
     completed: false,
   },
 ];
 
 const priorityLabels = {
-  low: 'Low',
-  medium: 'Medium',
-  high: 'High',
+  low: 'Низький',
+  medium: 'Середній',
+  high: 'Високий',
 };
 
 export default function App() {
@@ -37,7 +37,7 @@ export default function App() {
   const openCount = tasks.length - completedCount;
 
   useEffect(() => {
-    document.title = `${openCount} open tasks · Lecture 4`;
+    document.title = `${openCount} активних завдань · Лекція 4`;
   }, [openCount]);
 
   function handleTitleChange(event) {
@@ -54,7 +54,7 @@ export default function App() {
     const normalizedTitle = title.trim();
 
     if (normalizedTitle.length < 3) {
-      setError('Enter at least 3 characters for the task title.');
+      setError('Введіть щонайменше 3 символи у назві завдання.');
       return;
     }
 
@@ -91,37 +91,37 @@ export default function App() {
     <main className="page-shell">
       <header className="hero">
         <div>
-          <p className="eyebrow">Lecture 4 · React</p>
-          <h1>Task Board</h1>
+          <p className="eyebrow">Лекція 4 · React</p>
+          <h1>Планувальник завдань</h1>
           <p className="hero-copy">
-            A runnable example of state, events, controlled form fields, validation,
-            immutable updates, and an Effect that synchronizes the browser title.
+            Робочий приклад стану, подій, контрольованої форми, валідації,
+            незмінних оновлень і Effect для синхронізації заголовка вкладки.
           </p>
         </div>
 
-        <div className="flow" aria-label="React update cycle">
-          <span>Action</span>
+        <div className="flow" aria-label="Цикл оновлення React">
+          <span>Дія</span>
           <b>→</b>
-          <span>Event</span>
+          <span>Подія</span>
           <b>→</b>
-          <span>State</span>
+          <span>Стан</span>
           <b>→</b>
-          <span>Render</span>
+          <span>Новий UI</span>
         </div>
       </header>
 
-      <section className="dashboard" aria-label="Task application">
+      <section className="dashboard" aria-label="Застосунок керування завданнями">
         <article className="panel form-panel">
           <div className="panel-heading">
             <div>
-              <p className="section-kicker">Controlled form</p>
-              <h2>Add a task</h2>
+              <p className="section-kicker">Контрольована форма</p>
+              <h2>Нове завдання</h2>
             </div>
             <span className="state-badge">title = {JSON.stringify(title)}</span>
           </div>
 
           <form onSubmit={handleSubmit} noValidate>
-            <label htmlFor="task-title">Task title</label>
+            <label htmlFor="task-title">Назва завдання</label>
             <input
               id="task-title"
               name="title"
@@ -130,7 +130,7 @@ export default function App() {
               onChange={handleTitleChange}
               aria-invalid={Boolean(error)}
               aria-describedby={error ? 'title-error' : 'title-help'}
-              placeholder="e.g. Prepare lecture screenshots"
+              placeholder="Наприклад, підготувати скріншоти лекції"
             />
 
             {error ? (
@@ -139,24 +139,24 @@ export default function App() {
               </p>
             ) : (
               <p className="form-message" id="title-help">
-                The input value is stored in React state after every change event.
+                Значення поля зберігається у стані React після кожної події зміни.
               </p>
             )}
 
-            <label htmlFor="task-priority">Priority</label>
+            <label htmlFor="task-priority">Пріоритет</label>
             <select
               id="task-priority"
               name="priority"
               value={priority}
               onChange={(event) => setPriority(event.target.value)}
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="low">Низький</option>
+              <option value="medium">Середній</option>
+              <option value="high">Високий</option>
             </select>
 
             <button className="primary-button" type="submit">
-              Add task
+              Додати завдання
             </button>
           </form>
         </article>
@@ -164,18 +164,18 @@ export default function App() {
         <article className="panel tasks-panel">
           <div className="panel-heading task-heading">
             <div>
-              <p className="section-kicker">Derived values</p>
-              <h2>Tasks</h2>
+              <p className="section-kicker">Похідні значення</p>
+              <h2>Завдання</h2>
             </div>
 
-            <div className="stats" aria-label="Task counters">
+            <div className="stats" aria-label="Лічильники завдань">
               <div>
                 <strong>{openCount}</strong>
-                <span>open</span>
+                <span>активні</span>
               </div>
               <div>
                 <strong>{completedCount}</strong>
-                <span>done</span>
+                <span>виконано</span>
               </div>
             </div>
           </div>
@@ -205,8 +205,8 @@ export default function App() {
       </section>
 
       <footer className="lesson-note">
-        <strong>Observe:</strong> every visible change comes from state. Events update state;
-        React renders the next UI from that state.
+        <strong>Спостерігайте:</strong> кожна видима зміна походить зі стану. Події змінюють стан,
+        а React формує наступний UI з його актуального значення.
       </footer>
     </main>
   );

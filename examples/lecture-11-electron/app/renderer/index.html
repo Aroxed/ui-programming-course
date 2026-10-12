@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electron Task Desk</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header>
+      <p class="eyebrow">Lecture 11 · Electron</p>
+      <h1>Desktop Task Desk</h1>
+      <p class="intro">Один невеликий desktop-застосунок показує межу між renderer-кодом і можливостями операційної системи.</p>
+    </header>
+
+    <section class="task-section" aria-labelledby="task-heading">
+      <h2 id="task-heading">Поточне завдання</h2>
+      <label for="task-title">Назва</label>
+      <input id="task-title" type="text" maxlength="200" value="Підготувати desktop-версію проєкту">
+
+      <div class="status-row">
+        <span>Стан</span>
+        <strong id="task-status">Активне</strong>
+      </div>
+
+      <div class="actions">
+        <button id="toggle-task" type="button">Позначити виконаним</button>
+        <button id="save-task" type="button">Зберегти у файл…</button>
+        <button id="open-task" type="button">Відкрити файл…</button>
+      </div>
+      <p id="message" class="message" role="status"></p>
+    </section>
+
+    <section class="system-section" aria-labelledby="system-heading">
+      <h2 id="system-heading">Desktop runtime</h2>
+      <dl>
+        <div><dt>Platform</dt><dd id="platform">—</dd></div>
+        <div><dt>Electron</dt><dd id="electron-version">—</dd></div>
+        <div><dt>Chromium</dt><dd id="chrome-version">—</dd></div>
+        <div><dt>Node.js</dt><dd id="node-version">—</dd></div>
+      </dl>
+      <p class="hint">Renderer не має прямого Node.js API. Доступ до системних операцій проходить через preload bridge та IPC.</p>
+    </section>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

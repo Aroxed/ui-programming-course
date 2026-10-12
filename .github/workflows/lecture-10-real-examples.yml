@@ -52,8 +52,12 @@ jobs:
           mkdir -p screenshots/lecture-10
           python3 -m http.server 4182 --bind 127.0.0.1 --directory examples/lecture-10-comparison/flutter/build/web >/tmp/lecture10-flutter.log 2>&1 &
           timeout 60 bash -c 'until curl -fsS http://127.0.0.1:4182 >/dev/null; do sleep 1; done'
-          CHROME="$(command -v google-chrome || command -v google-chrome-stable)"
-          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=430,900 --screenshot="$GITHUB_WORKSPACE/screenshots/lecture-10/flutter-task.png" http://127.0.0.1:4182
+          npx -y playwright@latest screenshot \
+            --channel chrome \
+            --viewport-size "430,900" \
+            --wait-for-timeout 8000 \
+            http://127.0.0.1:4182 \
+            "$GITHUB_WORKSPACE/screenshots/lecture-10/flutter-task.png"
       - uses: actions/upload-artifact@v4
         with:
           name: lecture10-flutter
@@ -93,8 +97,7 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            cd examples/lecture-10-comparison/android-compose
-            gradle :app:installDebug --stacktrace
+            gradle -p examples/lecture-10-comparison/android-compose :app:installDebug --stacktrace
             adb shell wm size 430x900
             adb shell wm density 160
             adb shell settings put system accelerometer_rotation 0

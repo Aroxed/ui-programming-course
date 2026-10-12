@@ -1,0 +1,1 @@
+import{defineConfig}from'@playwright/test';export default defineConfig({testDir:'./tests',use:{baseURL:'http://127.0.0.1:4177',viewport:{width:430,height:900}},webServer:{command:'CI=1 npx expo start --web --port 4177',port:4177,reuseExistingServer:true,timeout:120000}});

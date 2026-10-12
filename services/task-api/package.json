@@ -1,0 +1,1 @@
+{"name":"@course/task-api","private":true,"scripts":{"start":"node server.mjs"}}

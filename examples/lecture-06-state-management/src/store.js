@@ -1,0 +1,1 @@
+import{configureStore}from'@reduxjs/toolkit';import selection from './selectionSlice.js';export const store=configureStore({reducer:{selection}});

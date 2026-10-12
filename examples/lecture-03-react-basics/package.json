@@ -1,0 +1,7 @@
+{
+  "name": "@course/lecture-03-react-basics",
+  "private": true,
+  "scripts": {"dev":"vite","build":"vite build","screenshots":"playwright test"},
+  "dependencies": {"@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest","@playwright/test":"latest"},
+  "devDependencies": {}
+}

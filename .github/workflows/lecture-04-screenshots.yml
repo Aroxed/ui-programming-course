@@ -33,10 +33,22 @@ jobs:
       - run: npm run screenshots:06
       - run: npm run screenshots:07
       - run: npm run screenshots:08
+      - name: Download official DevTools reference screenshots
+        shell: bash
+        run: |
+          mkdir -p screenshots/devtools
+          curl -L --fail --retry 3 -o screenshots/devtools/react-components.png https://react.dev/images/docs/react-devtools-extension.png
+          curl -L --fail --retry 3 -o screenshots/devtools/browser-network.png https://developer.chrome.com/static/docs/devtools/network/image/network-docked-bottom.png
+          curl -L --fail --retry 3 -o screenshots/devtools/browser-network-headers.png https://developer.chrome.com/static/docs/devtools/network/image/the-headers-tab.png
+          curl -L --fail --retry 3 -o screenshots/devtools/redux-state.png https://redux.js.org/assets/images/devtools-basic-counter-d37a7c78b6f2e1b29f9dd135128fe505.png
+          curl -L --fail --retry 3 -o screenshots/devtools/react-native-sources.webp https://docs.expo.dev/static/images/debugging/inspector-sources-tab.webp
+          curl -L --fail --retry 3 -o screenshots/devtools/react-native-components.webp https://docs.expo.dev/static/images/debugging/inspector-components.webp
       - uses: actions/upload-artifact@v4
         with:
           name: course-screenshots
-          path: screenshots/lecture-*/*.png
+          path: |
+            screenshots/lecture-*/*.png
+            screenshots/devtools/*
           if-no-files-found: error
       - name: Commit refreshed screenshots
         shell: bash

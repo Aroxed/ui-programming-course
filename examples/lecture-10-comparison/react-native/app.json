@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "Lecture 10 React Native",
+    "slug": "lecture-10-react-native",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

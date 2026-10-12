@@ -13,6 +13,7 @@ on:
       - 'examples/lecture-08-navigation-state-data/**'
       - 'services/task-api/**'
       - 'scripts/capture-devtools.sh'
+      - 'scripts/refine-browser-devtools.sh'
       - '.github/workflows/devtools-captures.yml'
 
 permissions:
@@ -38,8 +39,10 @@ jobs:
           sudo apt-get install -y xvfb fluxbox xdotool wmctrl imagemagick scrot
       - name: Install standalone React DevTools for capture only
         run: npm install --no-save --ignore-scripts=false react-devtools@8.0.0
-      - name: Capture real DevTools windows
+      - name: Capture React DevTools and initial browser views
         run: bash scripts/capture-devtools.sh
+      - name: Refine real Browser DevTools captures
+        run: bash scripts/refine-browser-devtools.sh
       - uses: actions/upload-artifact@v4
         with:
           name: real-devtools-screenshots

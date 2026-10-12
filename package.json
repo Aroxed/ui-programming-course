@@ -3,8 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "description": "Runnable examples and local testbed for the User Interface Programming course",
+  "workspaces": [
+    "examples/*",
+    "services/*"
+  ],
   "scripts": {
-    "doctor": "node scripts/doctor.mjs"
+    "doctor": "node scripts/doctor.mjs",
+    "lecture:04": "npm run dev --workspace=@course/lecture-04-state-events-forms",
+    "build:04": "npm run build --workspace=@course/lecture-04-state-events-forms",
+    "screenshots:04": "npm run screenshots --workspace=@course/lecture-04-state-events-forms"
   },
   "engines": {
     "node": ">=24 <25",

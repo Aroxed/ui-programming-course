@@ -43,6 +43,7 @@ jobs:
           curl -L --fail --retry 3 -o screenshots/devtools/redux-state.png https://redux.js.org/assets/images/devtools-basic-counter-d37a7c78b6f2e1b29f9dd135128fe505.png
           curl -L --fail --retry 3 -o screenshots/devtools/react-native-sources.webp https://docs.expo.dev/static/images/debugging/inspector-sources-tab.webp
           curl -L --fail --retry 3 -o screenshots/devtools/react-native-components.webp https://docs.expo.dev/static/images/debugging/inspector-components.webp
+          curl -L --fail --retry 3 -o screenshots/devtools/react-native-network.webp https://docs.expo.dev/static/images/debugging/inspector-network-post.webp
       - uses: actions/upload-artifact@v4
         with:
           name: course-screenshots

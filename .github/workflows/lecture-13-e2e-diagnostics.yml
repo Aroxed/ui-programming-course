@@ -1,0 +1,68 @@
+name: Lecture 13 E2E diagnostics
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/lecture-13-e2e-diagnostics/**'
+      - '.github/workflows/lecture-13-e2e-diagnostics.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Lecture 13 dependencies
+        working-directory: examples/lecture-13-e2e-diagnostics/app
+        run: npm install
+
+      - name: Install Playwright Chromium
+        working-directory: examples/lecture-13-e2e-diagnostics/app
+        run: npx playwright install --with-deps chromium
+
+      - name: Build real app
+        working-directory: examples/lecture-13-e2e-diagnostics/app
+        run: npm run build
+
+      - name: Run real E2E tests
+        id: e2e
+        working-directory: examples/lecture-13-e2e-diagnostics/app
+        shell: bash
+        run: |
+          mkdir -p ../../../screenshots/lecture-13
+          set -o pipefail
+          npm run test:e2e 2>&1 | tee ../../../screenshots/lecture-13/e2e-output.txt
+
+      - name: Upload E2E diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lecture13-e2e-diagnostics
+          path: |
+            screenshots/lecture-13/
+            examples/lecture-13-e2e-diagnostics/app/test-results/
+            examples/lecture-13-e2e-diagnostics/app/playwright-report/
+          if-no-files-found: warn
+
+      - name: Commit verified success evidence
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add screenshots/lecture-13/e2e-create-success.png screenshots/lecture-13/e2e-output.txt
+          if git diff --cached --quiet; then
+            echo 'No evidence changes.'
+          else
+            git commit -m 'Refresh Lecture 13 verified E2E evidence'
+            git pull --rebase origin main
+            git push
+          fi

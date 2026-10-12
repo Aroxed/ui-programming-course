@@ -44,13 +44,20 @@ describe('TaskEditor', () => {
   });
 
   it('shows progress and confirmation for a successful async save', async () => {
-    saveTask.mockResolvedValue({ id: 1 });
+    let resolveSave;
+    saveTask.mockImplementation(() => new Promise(resolve => {
+      resolveSave = resolve;
+    }));
+
     const user = userEvent.setup();
     render(<TaskEditor />);
 
     await user.click(screen.getByRole('button', { name: 'Зберегти' }));
 
     expect(screen.getByRole('button', { name: 'Збереження…' })).toBeDisabled();
+
+    resolveSave({ id: 1 });
+
     expect(await screen.findByRole('status')).toHaveTextContent('Збережено');
     expect(saveTask).toHaveBeenCalledWith({
       title: 'Підготувати презентацію',

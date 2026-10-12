@@ -1,0 +1,24 @@
+{
+  "name":"@course/lecture-09-platform-features",
+  "private":true,
+  "main":"expo/AppEntry.js",
+  "scripts":{
+    "start":"expo start",
+    "web":"expo start --web",
+    "screenshots":"playwright test"
+  },
+  "dependencies":{
+    "expo":"~57.0.21",
+    "expo-status-bar":"~57.0.1",
+    "react":"19.2.3",
+    "react-dom":"19.2.3",
+    "react-native":"0.86.2",
+    "react-native-web":"~0.21.0",
+    "expo-location":"~57.0.20",
+    "expo-camera":"~57.0.6",
+    "expo-notifications":"~57.0.22",
+    "@react-native-async-storage/async-storage":"2.2.0",
+    "@react-native-community/netinfo":"12.0.1",
+    "@playwright/test":"latest"
+  }
+}

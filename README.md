@@ -68,6 +68,19 @@ screenshots/lecture-04/
 
 The same screenshot workflow runs in GitHub Actions so course illustrations remain tied to executable code.
 
+## Visual design principle
+
+All course examples use one restrained visual language. The examples should look like real, well-made interfaces without becoming showcase designs or generic AI/SaaS dashboards.
+
+- Prefer a minimal layout with clear hierarchy, spacing, and thin borders.
+- Use modern Google Fonts with a consistent sans-serif / monospace pairing where code or state values are shown.
+- Keep the palette mostly neutral. Use one accent for focus/interaction and extra colors only when they carry semantic meaning such as an error.
+- Avoid decorative gradients, large soft shadows, excessive rounded cards, pill-shaped labels, and multi-colour status systems unless the interface problem actually requires them.
+- Keep shared CSS ideas consistent across lectures: typography scale, spacing rhythm, form controls, focus states, borders, and semantic tokens.
+- Let the UI demonstrate the programming concept. Decoration must not compete with the behaviour being studied.
+
+Lecture 4 establishes the first implementation of this visual system with IBM Plex Sans / IBM Plex Mono, a neutral palette, a single bordered workspace, and semantic colour only for focus and validation.
+
 ## Course convention
 
 For each practical lecture we aim to keep four things synchronized in one commit:

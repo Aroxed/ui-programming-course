@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Lecture 4 example: React state, events, and forms" />
     <title>Task Board · Lecture 4</title>
+    <script>
+      if (new URLSearchParams(location.search).has('devtools')) {
+        document.write('<script src="http://127.0.0.1:8097"><\\/script>');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

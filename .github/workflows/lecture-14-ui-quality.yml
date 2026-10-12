@@ -1,0 +1,66 @@
+name: Lecture 14 UI quality
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/lecture-14-ui-quality/**'
+      - '.github/workflows/lecture-14-ui-quality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Lecture 14 dependencies
+        working-directory: examples/lecture-14-ui-quality/app
+        run: npm install
+
+      - name: Install Playwright Chromium
+        working-directory: examples/lecture-14-ui-quality/app
+        run: npx playwright install --with-deps chromium
+
+      - name: Build real app
+        working-directory: examples/lecture-14-ui-quality/app
+        run: npm run build
+
+      - name: Run accessibility, responsive and render checks
+        working-directory: examples/lecture-14-ui-quality/app
+        shell: bash
+        run: |
+          mkdir -p ../../../screenshots/lecture-14
+          set -o pipefail
+          npm run test:quality 2>&1 | tee ../../../screenshots/lecture-14/quality-output.txt
+
+      - name: Upload verified evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lecture14-ui-quality-evidence
+          path: |
+            screenshots/lecture-14/
+            examples/lecture-14-ui-quality/app/test-results/
+          if-no-files-found: warn
+
+      - name: Commit verified evidence
+        if: success()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add screenshots/lecture-14/quality-optimized.png screenshots/lecture-14/quality-mobile.png screenshots/lecture-14/quality-output.txt
+          if git diff --cached --quiet; then
+            echo 'No evidence changes.'
+          else
+            git commit -m 'Refresh Lecture 14 verified quality evidence'
+            git pull --rebase origin main
+            git push
+          fi

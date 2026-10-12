@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test('01 initial state', async ({ page }) => {
-  await expect(page.getByText('2', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText('2 активні · 1 виконано')).toBeVisible();
   await page.screenshot({ path: screenshotPath('01-initial-state.png'), fullPage: true });
 });
 
@@ -27,14 +27,14 @@ test('02 validation error', async ({ page }) => {
 
 test('03 controlled fields', async ({ page }) => {
   await page.getByLabel('Назва завдання').fill('Підготувати скріншоти лекції');
-  await page.getByLabel('Пріоритет').selectOption('high');
+  await page.getByLabel('Пріоритет').selectOption('Високий');
   await expect(page.getByText('title = "Підготувати скріншоти лекції"')).toBeVisible();
   await page.screenshot({ path: screenshotPath('03-controlled-fields.png'), fullPage: true });
 });
 
 test('04 immutable update after submit', async ({ page }) => {
   await page.getByLabel('Назва завдання').fill('Підготувати скріншоти лекції');
-  await page.getByLabel('Пріоритет').selectOption('high');
+  await page.getByLabel('Пріоритет').selectOption('Високий');
   await page.getByRole('button', { name: 'Додати завдання' }).click();
 
   await expect(page.getByText('Підготувати скріншоти лекції')).toBeVisible();

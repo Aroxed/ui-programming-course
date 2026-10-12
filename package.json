@@ -1,9 +1,12 @@
 {
   "name": "ui-programming-course",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Runnable examples and local testbed for the User Interface Programming course",
-  "workspaces": ["examples/*", "services/*"],
+  "workspaces": [
+    "examples/*",
+    "services/*"
+  ],
   "scripts": {
     "doctor": "node scripts/doctor.mjs",
     "lecture:03": "npm run dev --workspace=@course/lecture-03-react-basics",
@@ -11,7 +14,7 @@
     "lecture:05": "concurrently -k -n api,web \"npm run start --workspace=@course/task-api\" \"npm run dev --workspace=@course/lecture-05-routing-api\"",
     "lecture:06": "npm run dev --workspace=@course/lecture-06-state-management",
     "lecture:07": "npm run web --workspace=@course/lecture-07-react-native-basics",
-    "lecture:08": "npm run web --workspace=@course/lecture-08-navigation-state-data",
+    "lecture:08": "concurrently -k -n api,mobile \"npm run start --workspace=@course/task-api\" \"npm run web --workspace=@course/lecture-08-navigation-state-data\"",
     "screenshots:03": "npm run screenshots --workspace=@course/lecture-03-react-basics",
     "screenshots:04": "npm run screenshots --workspace=@course/lecture-04-state-events-forms",
     "screenshots:05": "npm run screenshots --workspace=@course/lecture-05-routing-api",
@@ -19,6 +22,11 @@
     "screenshots:07": "npm run screenshots --workspace=@course/lecture-07-react-native-basics",
     "screenshots:08": "npm run screenshots --workspace=@course/lecture-08-navigation-state-data"
   },
-  "devDependencies": {"concurrently": "latest"},
-  "engines": {"node": ">=24 <25", "npm": ">=10"}
+  "devDependencies": {
+    "concurrently": "latest"
+  },
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=10"
+  }
 }

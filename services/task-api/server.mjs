@@ -23,4 +23,4 @@ http.createServer(async(req,res)=>{
     const data=JSON.parse(body||'{}'); const task={id:Math.max(...tasks.map(t=>t.id),0)+1,title:data.title||'Без назви',completed:false}; tasks=[...tasks,task]; return json(res,201,task);
   }
   json(res,404,{message:'Not found'});
-}).listen(3001,'127.0.0.1',()=>console.log('Task API: http://127.0.0.1:3001'));
+}).listen(3001,'0.0.0.0',()=>console.log('Task API: http://127.0.0.1:3001'));

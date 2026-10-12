@@ -29,11 +29,13 @@ npm run lecture:08   # React Native navigation, params and data
 npm run lecture:09   # platform APIs: storage, network, location, camera, notifications
 ```
 
+Lecture 10 uses `examples/lecture-10-comparison/` as a source-level comparison of the same Task screen in Kotlin/Jetpack Compose, React Native, and Dart/Flutter. Android and Flutter require their own SDK/toolchains and are therefore not started by the root npm scripts.
+
 For Lecture 5 the root command starts both the local API and the Vite client. For Lectures 7–9 the command starts Expo for the web target; the same projects can also be opened through Expo tooling on supported mobile environments. Lecture 9 deliberately separates what can be reproduced in Expo Web from native-only behavior: local notification scheduling is checked on Android/iOS rather than simulated in the browser.
 
 ## Repository structure
 
-- `examples/` — self-contained lecture snapshots
+- `examples/` — self-contained lecture snapshots and comparison sources
 - `services/` — local services used by examples
 - `screenshots/` — images generated from the running course examples
 - `scripts/` — environment checks and helper tooling
@@ -58,6 +60,7 @@ The examples intentionally look simple. Their purpose is to make the programming
 - Lecture 7: React Native DevTools — Components, inspector, Console.
 - Lecture 8: React Native DevTools — navigation plus Network for API requests.
 - Lecture 9: device/platform state — network transitions, persistent storage, permissions and location/camera behavior.
+- Lecture 10: compare equivalent UI/state code across Android Compose, React Native, and Flutter before choosing a stack.
 - Lecture 13 later expands this into full debugging with breakpoints, logs, failed E2E scenarios, and root-cause analysis.
 
 ## Screenshot principle

@@ -30,11 +30,22 @@ http://127.0.0.1:5173
 
 ## What to try
 
-1. Type a task title and watch the `title = ...` badge update after every input event.
+1. Type a task title and watch the controlled input update after every input event.
 2. Submit an empty form and observe the validation state.
 3. Add a task and compare the counters before and after the state update.
 4. Mark tasks as completed and observe both the rendered list and the browser tab title.
 5. Open `src/App.jsx` and change the initial state or validation condition, then observe the result in the browser.
+
+## Check it in React Developer Tools
+
+Open the app, press `F12`, and switch to **Components**.
+
+1. Select `App` and watch its Hook/state values while typing in the form.
+2. Submit an empty title and find the value that represents the validation error.
+3. Toggle a task and compare the state before and after the event.
+4. Switch to **Profiler** only to identify which components render after the interaction; detailed profiling is covered later in the course.
+
+React Developer Tools: https://react.dev/learn/react-developer-tools
 
 ## Generate course screenshots
 

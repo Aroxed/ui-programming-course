@@ -34,7 +34,7 @@ For Lecture 5 the root command starts both the local API and the Vite client. Fo
 
 - `examples/` — self-contained lecture snapshots
 - `services/` — local services used by examples
-- `screenshots/` — images generated from the running examples and official DevTools reference images
+- `screenshots/` — images generated from the running course examples
 - `scripts/` — environment checks and helper tooling
 
 ## Visual principle
@@ -58,6 +58,14 @@ The examples intentionally look simple. Their purpose is to make the programming
 - Lecture 8: React Native DevTools — navigation plus Network for API requests.
 - Lecture 13 later expands this into full debugging with breakpoints, logs, failed E2E scenarios, and root-cause analysis.
 
-## Screenshots
+## Screenshot principle
 
-Screenshots are created from the executable examples with Playwright. GitHub Actions regenerates them whenever example code changes, keeping the lecture illustration tied to the actual code. Official documentation screenshots used to introduce DevTools are also fetched by CI into `screenshots/devtools/` so the course has stable visual references with source attribution.
+A screenshot in the course should demonstrate the code the student can actually run from this repository.
+
+- UI screenshots are generated from the corresponding runnable lecture example.
+- DevTools screenshots should also be captured from that same example whenever technically possible: the component names, props, state, routes, API URLs, Redux actions, and data visible in the screenshot must match the lecture code.
+- A generic screenshot from external documentation is not used as evidence of what the course example does.
+- External documentation images may be used only when a tool cannot reasonably be captured from the course testbed, and must then be clearly labelled as a reference image rather than as the result of the example.
+- If a current real DevTools capture is not yet available, the lecture keeps the hands-on DevTools exercise and the official documentation link, but does not substitute an unrelated screenshot.
+
+Playwright regenerates the application screenshots whenever example code changes. DevTools capture tooling is developed separately because browser and native debugger chrome cannot always be captured by ordinary page-level Playwright screenshots.

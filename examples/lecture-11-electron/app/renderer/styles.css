@@ -1,0 +1,156 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #151515;
+  background: #f3f3f3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.app-shell {
+  width: min(760px, calc(100% - 48px));
+  margin: 36px auto;
+  background: #fff;
+  border: 1px solid #d7d7d7;
+  padding: 32px;
+}
+
+header {
+  padding-bottom: 24px;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #555;
+  font-size: 14px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 32px;
+}
+
+h2 {
+  margin-bottom: 18px;
+  font-size: 20px;
+}
+
+.intro,
+.hint,
+.message {
+  color: #555;
+  line-height: 1.5;
+}
+
+.task-section,
+.system-section {
+  padding: 28px 0;
+  border-bottom: 1px solid #d7d7d7;
+}
+
+.system-section {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+}
+
+input:focus,
+button:focus-visible {
+  outline: 2px solid #2457d6;
+  outline-offset: 2px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0;
+  padding: 12px 0;
+  border-top: 1px solid #e3e3e3;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  border: 1px solid #222;
+  background: #fff;
+  color: #111;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+button:first-child {
+  background: #111;
+  color: #fff;
+}
+
+button:hover {
+  background: #e9e9e9;
+}
+
+button:first-child:hover {
+  background: #333;
+}
+
+.message {
+  min-height: 24px;
+  margin: 16px 0 0;
+}
+
+dl {
+  margin: 0;
+}
+
+dl div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 18px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ededed;
+}
+
+dt {
+  color: #555;
+}
+
+dd {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.hint {
+  margin: 18px 0 0;
+}

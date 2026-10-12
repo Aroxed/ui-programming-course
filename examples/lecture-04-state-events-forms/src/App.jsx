@@ -89,71 +89,73 @@ export default function App() {
 
   return (
     <main className="page-shell">
-      <header className="hero">
-        <div>
-          <p className="eyebrow">Лекція 4 · React</p>
-          <h1>Планувальник завдань</h1>
-          <p className="hero-copy">
-            Робочий приклад стану, подій, контрольованої форми, валідації,
-            незмінних оновлень і Effect для синхронізації заголовка вкладки.
-          </p>
-        </div>
+      <header className="page-header">
+        <p className="course-meta">Лекція 4 / React</p>
+        <h1>Планувальник завдань</h1>
+        <p className="page-intro">
+          Приклад стану, подій, контрольованої форми, валідації та незмінних оновлень.
+          Заголовок вкладки синхронізується через Effect.
+        </p>
 
-        <div className="flow" aria-label="Цикл оновлення React">
+        <div className="flow-line" aria-label="Цикл оновлення React">
           <span>Дія</span>
-          <b>→</b>
+          <span aria-hidden="true">→</span>
           <span>Подія</span>
-          <b>→</b>
+          <span aria-hidden="true">→</span>
           <span>Стан</span>
-          <b>→</b>
+          <span aria-hidden="true">→</span>
           <span>Новий UI</span>
         </div>
       </header>
 
-      <section className="dashboard" aria-label="Застосунок керування завданнями">
-        <article className="panel form-panel">
-          <div className="panel-heading">
+      <section className="workspace" aria-label="Застосунок керування завданнями">
+        <article className="workspace-section form-section">
+          <div className="section-heading">
             <div>
-              <p className="section-kicker">Контрольована форма</p>
+              <p className="section-label">Контрольована форма</p>
               <h2>Нове завдання</h2>
             </div>
-            <span className="state-badge">title = {JSON.stringify(title)}</span>
+            <code className="state-readout">title = {JSON.stringify(title)}</code>
           </div>
 
           <form onSubmit={handleSubmit} noValidate>
-            <label htmlFor="task-title">Назва завдання</label>
-            <input
-              id="task-title"
-              name="title"
-              type="text"
-              value={title}
-              onChange={handleTitleChange}
-              aria-invalid={Boolean(error)}
-              aria-describedby={error ? 'title-error' : 'title-help'}
-              placeholder="Наприклад, підготувати скріншоти лекції"
-            />
+            <div className="field">
+              <label htmlFor="task-title">Назва завдання</label>
+              <input
+                id="task-title"
+                name="title"
+                type="text"
+                value={title}
+                onChange={handleTitleChange}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? 'title-error' : 'title-help'}
+                placeholder="Наприклад, підготувати скріншоти лекції"
+              />
 
-            {error ? (
-              <p className="form-message error" id="title-error" role="alert">
-                {error}
-              </p>
-            ) : (
-              <p className="form-message" id="title-help">
-                Значення поля зберігається у стані React після кожної події зміни.
-              </p>
-            )}
+              {error ? (
+                <p className="field-note error" id="title-error" role="alert">
+                  {error}
+                </p>
+              ) : (
+                <p className="field-note" id="title-help">
+                  Значення поля зберігається у стані React після кожної події зміни.
+                </p>
+              )}
+            </div>
 
-            <label htmlFor="task-priority">Пріоритет</label>
-            <select
-              id="task-priority"
-              name="priority"
-              value={priority}
-              onChange={(event) => setPriority(event.target.value)}
-            >
-              <option value="low">Низький</option>
-              <option value="medium">Середній</option>
-              <option value="high">Високий</option>
-            </select>
+            <div className="field">
+              <label htmlFor="task-priority">Пріоритет</label>
+              <select
+                id="task-priority"
+                name="priority"
+                value={priority}
+                onChange={(event) => setPriority(event.target.value)}
+              >
+                <option value="low">Низький</option>
+                <option value="medium">Середній</option>
+                <option value="high">Високий</option>
+              </select>
+            </div>
 
             <button className="primary-button" type="submit">
               Додати завдання
@@ -161,23 +163,18 @@ export default function App() {
           </form>
         </article>
 
-        <article className="panel tasks-panel">
-          <div className="panel-heading task-heading">
+        <article className="workspace-section tasks-section">
+          <div className="section-heading tasks-heading">
             <div>
-              <p className="section-kicker">Похідні значення</p>
+              <p className="section-label">Похідні значення</p>
               <h2>Завдання</h2>
             </div>
 
-            <div className="stats" aria-label="Лічильники завдань">
-              <div>
-                <strong>{openCount}</strong>
-                <span>активні</span>
-              </div>
-              <div>
-                <strong>{completedCount}</strong>
-                <span>виконано</span>
-              </div>
-            </div>
+            <p className="task-summary" aria-label="Лічильники завдань">
+              <strong>{openCount}</strong> активні
+              <span aria-hidden="true">·</span>
+              <strong>{completedCount}</strong> виконано
+            </p>
           </div>
 
           <ul className="task-list">
@@ -194,9 +191,7 @@ export default function App() {
 
                 <div className="task-copy">
                   <span className="task-title">{task.title}</span>
-                  <span className={`priority priority-${task.priority}`}>
-                    {priorityLabels[task.priority]}
-                  </span>
+                  <span className="priority">{priorityLabels[task.priority]}</span>
                 </div>
               </li>
             ))}

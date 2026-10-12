@@ -72,8 +72,6 @@ capture(){
   browser_pid=$!
   active_groups+=("$browser_pid")
 
-  # The standalone DevTools script must load before React; the lecture HTML does
-  # that only when ?devtools=1 is present. Give React time to connect and render.
   sleep 10
 
   local win=""
@@ -91,8 +89,6 @@ capture(){
   wmctrl -i -r "$win" -b add,maximized_vert,maximized_horz || true
   xdotool windowactivate --sync "$win" || true
   sleep 2
-
-  # Select an actual component so the inspector panel contains props/Hooks.
   xdotool mousemove --window "$win" "$click_x" "$click_y" click 1
   sleep 3
   import -window "$win" "$OUT/lecture-$lecture-react-components.png"
@@ -103,9 +99,8 @@ capture(){
   sleep 1
 }
 
-# Coordinates target real nodes in the current standalone React DevTools tree.
 capture 03 examples/lecture-03-react-basics 85 150
-capture 04 examples/lecture-04-state-events-forms 85 130
+capture 04 examples/lecture-04-state-events-forms 30 96
 capture 06 examples/lecture-06-state-management 85 168
 
 identify "$OUT"/lecture-03-react-components.png \

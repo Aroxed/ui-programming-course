@@ -103,9 +103,7 @@ function CreateTask() {
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const created = await response.json();
-      // Deliberate integration defect for the first diagnostic CI run:
-      // the API returns { id, title, completed }, not { task: {...} }.
-      navigate(`/tasks/${created.task.id}`);
+      navigate(`/tasks/${created.id}`);
     } catch {
       setStatus('error');
       setError('Не вдалося створити завдання.');

@@ -1,0 +1,44 @@
+name: Lecture 15 maintenance and AI-assisted workflow
+
+on:
+  push:
+    paths:
+      - 'examples/lecture-15-maintenance-ai/**'
+      - '.github/workflows/lecture-15-maintenance-ai.yml'
+  workflow_dispatch:
+
+jobs:
+  maintenance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        working-directory: examples/lecture-15-maintenance-ai/app
+        run: npm install
+
+      - name: Install Chromium
+        working-directory: examples/lecture-15-maintenance-ai/app
+        run: npx playwright install --with-deps chromium
+
+      - name: Build
+        working-directory: examples/lecture-15-maintenance-ai/app
+        run: npm run build
+
+      - name: Run maintenance verification
+        working-directory: examples/lecture-15-maintenance-ai/app
+        run: npm run test:maintenance
+
+      - name: Upload verified evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lecture15-maintenance-evidence
+          path: |
+            examples/lecture-15-maintenance-ai/screenshots/lecture-15/
+            examples/lecture-15-maintenance-ai/app/test-results/
+          if-no-files-found: ignore

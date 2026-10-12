@@ -48,7 +48,7 @@ jobs:
       - name: Commit refreshed screenshots
         shell: bash
         run: |
-          if git diff --quiet -- screenshots/lecture-04; then
+          if [ -z "$(git status --porcelain -- screenshots/lecture-04)" ]; then
             echo "Screenshots are already up to date."
             exit 0
           fi

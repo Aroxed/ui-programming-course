@@ -1,0 +1,23 @@
+{
+  "name": "lecture-13-e2e-diagnostics-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs --dev",
+    "build": "vite build",
+    "start": "node server.mjs",
+    "test:e2e": "playwright test --reporter=line",
+    "test:e2e:report": "playwright test"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "express": "latest",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-router-dom": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest"
+  }
+}

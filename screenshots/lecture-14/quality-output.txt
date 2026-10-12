@@ -1,0 +1,12 @@
+
+> test:quality
+> playwright test --reporter=line
+
+
+Running 4 tests using 1 worker
+
+[1/4] tests/quality.spec.js:8:1 › has no serious or critical automated accessibility violations
+[2/4] tests/quality.spec.js:15:1 › supports keyboard focus and semantic controls
+[3/4] tests/quality.spec.js:25:1 › optimized mode avoids list work on unrelated state change
+[4/4] tests/quality.spec.js:44:1 › search remains functional and the page is responsive
+  4 passed (3.8s)

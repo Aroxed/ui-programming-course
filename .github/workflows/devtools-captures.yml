@@ -12,7 +12,6 @@ on:
       - 'examples/lecture-07-react-native-basics/**'
       - 'examples/lecture-08-navigation-state-data/**'
       - 'services/task-api/**'
-      - 'scripts/capture-devtools.sh'
       - 'scripts/refine-react-devtools.sh'
       - 'scripts/refine-browser-devtools.sh'
       - '.github/workflows/devtools-captures.yml'
@@ -40,16 +39,21 @@ jobs:
           sudo apt-get install -y xvfb fluxbox xdotool wmctrl imagemagick scrot
       - name: Install standalone React DevTools for capture only
         run: npm install --no-save --ignore-scripts=false react-devtools@8.0.0
-      - name: Capture React DevTools and initial browser views
-        run: bash scripts/capture-devtools.sh
-      - name: Refine React DevTools inspector captures
+      - name: Capture real React DevTools inspector views
         run: bash scripts/refine-react-devtools.sh
-      - name: Refine real Browser DevTools captures
+      - name: Capture real Browser DevTools views
         run: bash scripts/refine-browser-devtools.sh
       - uses: actions/upload-artifact@v4
         with:
           name: real-devtools-screenshots
-          path: screenshots/devtools/lecture-*.png
+          path: |
+            screenshots/devtools/lecture-01-browser-devtools.png
+            screenshots/devtools/lecture-03-react-components.png
+            screenshots/devtools/lecture-04-react-components.png
+            screenshots/devtools/lecture-05-browser-network.png
+            screenshots/devtools/lecture-06-react-components.png
+            screenshots/devtools/lecture-07-expo-web-devtools.png
+            screenshots/devtools/lecture-08-expo-web-devtools.png
           if-no-files-found: error
       - name: Commit DevTools screenshots
         shell: bash
@@ -60,7 +64,13 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add screenshots/devtools
+          git add screenshots/devtools/lecture-01-browser-devtools.png \
+                  screenshots/devtools/lecture-03-react-components.png \
+                  screenshots/devtools/lecture-04-react-components.png \
+                  screenshots/devtools/lecture-05-browser-network.png \
+                  screenshots/devtools/lecture-06-react-components.png \
+                  screenshots/devtools/lecture-07-expo-web-devtools.png \
+                  screenshots/devtools/lecture-08-expo-web-devtools.png
           git commit -m "Refresh real DevTools screenshots"
           git pull --rebase origin main
           git push

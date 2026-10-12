@@ -18,6 +18,8 @@
     "lecture:08": "concurrently -k -n api,mobile \"npm run start --workspace=@course/task-api\" \"npm run web --workspace=@course/lecture-08-navigation-state-data\"",
     "lecture:09": "npm run web --workspace=@course/lecture-09-platform-features",
     "lecture:10:rn": "npm run web --workspace=@course/lecture-10-react-native",
+    "setup:11": "npm --prefix examples/lecture-11-electron/app install",
+    "lecture:11": "npm --prefix examples/lecture-11-electron/app start",
     "screenshots:03": "npm run screenshots --workspace=@course/lecture-03-react-basics",
     "screenshots:04": "npm run screenshots --workspace=@course/lecture-04-state-events-forms",
     "screenshots:05": "npm run screenshots --workspace=@course/lecture-05-routing-api",

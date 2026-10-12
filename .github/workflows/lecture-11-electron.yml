@@ -30,14 +30,8 @@ jobs:
       - name: Install Electron example
         run: npm --prefix examples/lecture-11-electron/app install --no-audit --no-fund
 
-      - name: Configure Chromium sandbox helper
-        run: |
-          SANDBOX=examples/lecture-11-electron/app/node_modules/electron/dist/chrome-sandbox
-          sudo chown root:root "$SANDBOX"
-          sudo chmod 4755 "$SANDBOX"
-
       - name: Launch real Electron app and capture BrowserWindow
-        run: xvfb-run -a npm --prefix examples/lecture-11-electron/app run screenshot
+        run: xvfb-run -a npm --prefix examples/lecture-11-electron/app run screenshot -- --no-sandbox
 
       - name: Verify screenshot
         run: test -s screenshots/lecture-11/electron-task-desktop.png

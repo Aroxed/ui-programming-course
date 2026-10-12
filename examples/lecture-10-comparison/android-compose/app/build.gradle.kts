@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "online.momentguide.lecture10"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "online.momentguide.lecture10"

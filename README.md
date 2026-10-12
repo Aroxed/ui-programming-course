@@ -15,23 +15,80 @@ npm install
 npm run doctor
 ```
 
-For the web lectures, use Browser DevTools (`F12`) and install React Developer Tools. Lecture 6 also uses Redux DevTools. For native React Native/Expo runs, use the built-in React Native DevTools opened from the Developer Menu or with `J` in the Expo terminal.
+The root npm examples require Node.js 24 and npm 10+. For the web lectures, use Browser DevTools (`F12`) and install React Developer Tools. Lecture 6 also uses Redux DevTools. For native React Native/Expo runs, use the built-in React Native DevTools opened from the Developer Menu or with `J` in the Expo terminal.
 
-## Lecture examples
+## How to run the lecture examples
+
+Run these commands from the repository root after `npm install`:
+
+| Lecture | Example | Command |
+| --- | --- | --- |
+| 3 | JSX, components, props, composition | `npm run lecture:03` |
+| 4 | State, events, controlled forms | `npm run lecture:04` |
+| 5 | React Router + local HTTP API | `npm run lecture:05` |
+| 6 | Context + Redux Toolkit + local state | `npm run lecture:06` |
+| 7 | React Native basics through Expo Web | `npm run lecture:07` |
+| 8 | React Native navigation, params and local API | `npm run lecture:08` |
+| 9 | Storage, network, location, camera and notifications | `npm run lecture:09` |
+| 10 | React Native comparison example through Expo Web | `npm run lecture:10:rn` |
+
+Stop a running development server with `Ctrl+C`.
+
+Lecture 5 starts both the local API and the Vite client. Lecture 8 also starts the local API together with the Expo Web client. Lectures 7–9 use Expo Web from the root command; the same projects can be opened through Expo tooling on supported mobile environments. Lecture 9 deliberately separates what can be reproduced in Expo Web from native-only behavior: local notification scheduling is checked on Android/iOS rather than simulated in the browser.
+
+### Lecture 10: run all three implementations
+
+Lecture 10 compares the same small Task screen in three stacks. The React Native version is part of the root npm workspace; Android Compose and Flutter use their own SDK toolchains.
+
+**React Native / Expo Web**
 
 ```bash
-npm run lecture:03   # JSX, components, props, composition
-npm run lecture:04   # state, events, forms
-npm run lecture:05   # React Router + local HTTP API
-npm run lecture:06   # Context + Redux Toolkit + local state
-npm run lecture:07   # React Native basics with Expo Web
-npm run lecture:08   # React Native navigation, params and data
-npm run lecture:09   # platform APIs: storage, network, location, camera, notifications
+npm run lecture:10:rn
 ```
 
-Lecture 10 contains verified runtime examples of the same Task screen in three stacks: Android/Jetpack Compose on an Android emulator, React Native through Expo Web, and Flutter Web. GitHub Actions builds and runs all three and stores the resulting screenshots under `screenshots/lecture-10/`. Android Studio/Android SDK and Flutter SDK are separate toolchains and are therefore not installed by the root npm setup.
+**Flutter / Web**
 
-For Lecture 5 the root command starts both the local API and the Vite client. For Lectures 7–9 the command starts Expo for the web target; the same projects can also be opened through Expo tooling on supported mobile environments. Lecture 9 deliberately separates what can be reproduced in Expo Web from native-only behavior: local notification scheduling is checked on Android/iOS rather than simulated in the browser.
+Prerequisite: a working Flutter SDK (`flutter doctor`).
+
+```bash
+cd examples/lecture-10-comparison/flutter
+flutter pub get
+flutter run -d chrome
+```
+
+**Android / Jetpack Compose**
+
+The simplest route is to open `examples/lecture-10-comparison/android-compose/` in Android Studio, let Gradle sync, start an emulator or connect a device, and run the `app` configuration.
+
+For a command-line run, use Java 17, Android SDK 36, Gradle 8.13, and a running emulator/device:
+
+```bash
+cd examples/lecture-10-comparison/android-compose
+gradle :app:assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n online.momentguide.lecture10/.MainActivity
+```
+
+The dedicated [Lecture 10 README](examples/lecture-10-comparison/README.md) explains the prerequisites, expected result, and CI verification in more detail.
+
+GitHub Actions builds and runs all three Lecture 10 variants and stores the resulting screenshots under `screenshots/lecture-10/`. The Android screenshot comes from an Android emulator; the React Native and Flutter screenshots are explicitly web targets and are not presented as native Android/iOS captures.
+
+## Screenshot commands
+
+The application screenshots for the npm-based examples can be regenerated from the repository root:
+
+```bash
+npm run screenshots:03
+npm run screenshots:04
+npm run screenshots:05
+npm run screenshots:06
+npm run screenshots:07
+npm run screenshots:08
+npm run screenshots:09
+npm run screenshots:10:rn
+```
+
+Android and Flutter Lecture 10 screenshots are generated by the dedicated GitHub Actions workflow because those examples require separate SDK toolchains and runtime environments.
 
 ## Repository structure
 

@@ -43,6 +43,7 @@ capture_browser(){
   rm -rf "$profile"
   "$BROWSER" --no-sandbox --disable-dev-shm-usage --disable-gpu \
     --no-first-run --no-default-browser-check --disable-search-engine-choice-screen \
+    --disable-translate --disable-features=Translate,TranslateUI \
     --user-data-dir="$profile" --start-maximized --auto-open-devtools-for-tabs \
     "$url" >/tmp/refine-browser.log 2>&1 &
   local pid=$!; pids+=("$pid")
@@ -50,10 +51,11 @@ capture_browser(){
   local win="$(find_browser_window)"
   wmctrl -i -r "$win" -b add,maximized_vert,maximized_horz || true
   xdotool windowactivate --sync "$win" || true
+  xdotool key Escape || true
   sleep 3
   if [[ "$panel" == network ]]; then
     eval "$(xdotool getwindowgeometry --shell "$win")"
-    local x=$((WIDTH-300))
+    local x=$((WIDTH-270))
     xdotool mousemove --window "$win" "$x" 150 click 1
     sleep 2
     xdotool key ctrl+r

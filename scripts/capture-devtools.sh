@@ -8,6 +8,12 @@ mkdir -p "$OUT"
 export DISPLAY=:99
 export ELECTRON_DISABLE_SANDBOX=1
 
+CHROMIUM_BIN="$(command -v chromium || command -v google-chrome || command -v google-chrome-stable || true)"
+if [[ -z "$CHROMIUM_BIN" ]]; then
+  echo "No Chromium/Chrome binary found" >&2
+  exit 1
+fi
+
 cleanup_pids=()
 cleanup() {
   for pid in "${cleanup_pids[@]:-}"; do
@@ -15,7 +21,7 @@ cleanup() {
     pkill -P "$pid" 2>/dev/null || true
   done
   pkill -f "react-devtools" 2>/dev/null || true
-  pkill -f "chromium.*course-devtools" 2>/dev/null || true
+  pkill -f "course-devtools" 2>/dev/null || true
   pkill -f "vite.*5173" 2>/dev/null || true
   pkill -f "expo.*417" 2>/dev/null || true
 }
@@ -40,9 +46,24 @@ start_x() {
   sleep 1
 }
 
+dismiss_chromium_prompt() {
+  for _ in $(seq 1 20); do
+    local prompt
+    prompt="$(xdotool search --name 'Chromium Additional Items of Service' 2>/dev/null | tail -1 || true)"
+    if [[ -n "$prompt" ]]; then
+      xdotool windowactivate --sync "$prompt" || true
+      xdotool key Return
+      sleep 2
+      return 0
+    fi
+    sleep 0.25
+  done
+  return 0
+}
+
 stop_devtools() {
   pkill -f "react-devtools" 2>/dev/null || true
-  pkill -f "chromium.*course-devtools" 2>/dev/null || true
+  pkill -f "course-devtools" 2>/dev/null || true
   sleep 1
 }
 
@@ -59,7 +80,7 @@ start_react_devtools() {
 
 capture_react_window() {
   local target="$1"
-  for _ in $(seq 1 50); do
+  for _ in $(seq 1 60); do
     local win
     win="$(xdotool search --name 'React Developer Tools' 2>/dev/null | tail -1 || true)"
     if [[ -n "$win" ]]; then
@@ -81,13 +102,16 @@ launch_chromium() {
   local url="$1"
   local profile="$2"
   rm -rf "$profile"
-  chromium \
+  "$CHROMIUM_BIN" \
     --no-sandbox --disable-dev-shm-usage --disable-gpu \
+    --no-first-run --no-default-browser-check --disable-search-engine-choice-screen \
     --user-data-dir="$profile" --class=course-devtools \
     --start-maximized --remote-debugging-port=9222 \
     "$url" >/tmp/chromium.log 2>&1 &
   cleanup_pids+=("$!")
-  sleep 4
+  sleep 3
+  dismiss_chromium_prompt
+  sleep 2
 }
 
 start_vite() {
@@ -109,7 +133,7 @@ capture_react_example() {
   start_react_devtools
   start_vite "$dir"
   launch_chromium "http://127.0.0.1:5173/?devtools=1" "/tmp/course-devtools-$lecture"
-  sleep 5
+  sleep 7
   capture_react_window "$OUT/lecture-$lecture-react-components.png"
   stop_devtools
   stop_vite
@@ -119,15 +143,19 @@ capture_browser_basic() {
   stop_vite
   start_vite "examples/lecture-03-react-basics"
   stop_devtools
-  chromium \
+  rm -rf /tmp/course-devtools-basic
+  "$CHROMIUM_BIN" \
     --no-sandbox --disable-dev-shm-usage --disable-gpu \
+    --no-first-run --no-default-browser-check --disable-search-engine-choice-screen \
     --user-data-dir=/tmp/course-devtools-basic --class=course-devtools \
     --start-maximized --auto-open-devtools-for-tabs \
     http://127.0.0.1:5173/ >/tmp/chromium-basic.log 2>&1 &
   cleanup_pids+=("$!")
-  sleep 6
+  sleep 4
+  dismiss_chromium_prompt
+  sleep 5
   scrot "$OUT/lecture-01-browser-devtools.png"
-  pkill -f "chromium.*course-devtools-basic" 2>/dev/null || true
+  pkill -f "course-devtools-basic" 2>/dev/null || true
   stop_vite
 }
 
@@ -138,13 +166,17 @@ capture_network() {
   cleanup_pids+=("$!")
   wait_http http://127.0.0.1:3001/tasks
   start_vite "examples/lecture-05-routing-api"
-  chromium \
+  rm -rf /tmp/course-devtools-network
+  "$CHROMIUM_BIN" \
     --no-sandbox --disable-dev-shm-usage --disable-gpu \
+    --no-first-run --no-default-browser-check --disable-search-engine-choice-screen \
     --user-data-dir=/tmp/course-devtools-network --class=course-devtools \
     --start-maximized --auto-open-devtools-for-tabs \
     http://127.0.0.1:5173/tasks >/tmp/chromium-network.log 2>&1 &
   cleanup_pids+=("$!")
-  sleep 6
+  sleep 4
+  dismiss_chromium_prompt
+  sleep 4
   local win
   win="$(xdotool search --onlyvisible --class chromium 2>/dev/null | tail -1 || true)"
   if [[ -n "$win" ]]; then
@@ -155,10 +187,10 @@ capture_network() {
     xdotool key Return
     sleep 2
     xdotool key ctrl+r
-    sleep 4
+    sleep 5
   fi
   scrot "$OUT/lecture-05-browser-network.png"
-  pkill -f "chromium.*course-devtools-network" 2>/dev/null || true
+  pkill -f "course-devtools-network" 2>/dev/null || true
   stop_vite
   pkill -f "services/task-api" 2>/dev/null || true
 }
@@ -187,13 +219,17 @@ capture_expo_browser() {
     return 1
   fi
 
-  chromium \
+  rm -rf "/tmp/course-devtools-expo-$lecture"
+  "$CHROMIUM_BIN" \
     --no-sandbox --disable-dev-shm-usage --disable-gpu \
+    --no-first-run --no-default-browser-check --disable-search-engine-choice-screen \
     --user-data-dir="/tmp/course-devtools-expo-$lecture" --class=course-devtools \
     --start-maximized --auto-open-devtools-for-tabs \
     "http://127.0.0.1:$port" >"/tmp/chromium-expo-$lecture.log" 2>&1 &
   cleanup_pids+=("$!")
-  sleep 8
+  sleep 4
+  dismiss_chromium_prompt
+  sleep 7
 
   local win
   win="$(xdotool search --onlyvisible --class chromium 2>/dev/null | tail -1 || true)"
@@ -212,7 +248,7 @@ capture_expo_browser() {
   fi
 
   scrot "$OUT/lecture-$lecture-expo-web-devtools.png"
-  pkill -f "chromium.*course-devtools-expo-$lecture" 2>/dev/null || true
+  pkill -f "course-devtools-expo-$lecture" 2>/dev/null || true
   pkill -f "expo.*$port" 2>/dev/null || true
   if [[ "$with_api" == "1" ]]; then pkill -f "services/task-api" 2>/dev/null || true; fi
 }

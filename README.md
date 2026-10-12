@@ -26,9 +26,10 @@ npm run lecture:05   # React Router + local HTTP API
 npm run lecture:06   # Context + Redux Toolkit + local state
 npm run lecture:07   # React Native basics with Expo Web
 npm run lecture:08   # React Native navigation, params and data
+npm run lecture:09   # platform APIs: storage, network, location, camera, notifications
 ```
 
-For Lecture 5 the root command starts both the local API and the Vite client. For Lectures 7–8 the command starts Expo for the web target; the same projects can also be opened through Expo tooling on supported mobile environments.
+For Lecture 5 the root command starts both the local API and the Vite client. For Lectures 7–9 the command starts Expo for the web target; the same projects can also be opened through Expo tooling on supported mobile environments. Lecture 9 deliberately separates what can be reproduced in Expo Web from native-only behavior: local notification scheduling is checked on Android/iOS rather than simulated in the browser.
 
 ## Repository structure
 
@@ -56,6 +57,7 @@ The examples intentionally look simple. Their purpose is to make the programming
 - Lecture 6: React Developer Tools + Redux DevTools — local/Context/Redux state.
 - Lecture 7: React Native DevTools — Components, inspector, Console.
 - Lecture 8: React Native DevTools — navigation plus Network for API requests.
+- Lecture 9: device/platform state — network transitions, persistent storage, permissions and location/camera behavior.
 - Lecture 13 later expands this into full debugging with breakpoints, logs, failed E2E scenarios, and root-cause analysis.
 
 ## Screenshot principle

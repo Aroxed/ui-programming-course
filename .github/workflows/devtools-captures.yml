@@ -1,0 +1,60 @@
+name: Real DevTools captures
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/lecture-03-react-basics/**'
+      - 'examples/lecture-04-state-events-forms/**'
+      - 'examples/lecture-05-routing-api/**'
+      - 'examples/lecture-06-state-management/**'
+      - 'examples/lecture-07-react-native-basics/**'
+      - 'examples/lecture-08-navigation-state-data/**'
+      - 'services/task-api/**'
+      - 'scripts/capture-devtools.sh'
+      - '.github/workflows/devtools-captures.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: real-devtools-captures
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install project dependencies
+        run: npm install
+      - name: Install capture utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb fluxbox xdotool wmctrl imagemagick scrot
+      - name: Install standalone React DevTools for capture only
+        run: npm install --no-save --ignore-scripts=false react-devtools@8.0.0
+      - name: Capture real DevTools windows
+        run: bash scripts/capture-devtools.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: real-devtools-screenshots
+          path: screenshots/devtools/lecture-*.png
+          if-no-files-found: error
+      - name: Commit DevTools screenshots
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- screenshots/devtools)" ]; then
+            echo "DevTools screenshots are already up to date."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add screenshots/devtools
+          git commit -m "Refresh real DevTools screenshots"
+          git pull --rebase origin main
+          git push

@@ -1,0 +1,156 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #171717;
+  background: #ffffff;
+  line-height: 1.5;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; }
+
+a { color: #1d4ed8; }
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: #ffffff;
+  border: 2px solid #111111;
+  padding: .5rem .75rem;
+  z-index: 10;
+}
+
+.skip-link:focus { top: 1rem; }
+
+.site-header,
+.site-footer,
+.layout {
+  width: min(960px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header {
+  padding: 2rem 0 1rem;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.site-header h1,
+.controls h2,
+.results h2 { margin-top: 0; }
+
+.eyebrow {
+  margin: 0 0 .25rem;
+  color: #525252;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 300px) minmax(0, 1fr);
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.controls {
+  align-self: start;
+}
+
+fieldset {
+  margin: 0 0 1.25rem;
+  padding: .75rem;
+  border: 1px solid #a3a3a3;
+}
+
+fieldset label {
+  display: block;
+  margin: .45rem 0;
+}
+
+.search-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: .35rem;
+}
+
+input[type="search"] {
+  width: 100%;
+  min-height: 2.5rem;
+  border: 1px solid #737373;
+  padding: .5rem;
+  font: inherit;
+}
+
+button {
+  margin-top: .75rem;
+  min-height: 2.5rem;
+  border: 1px solid #111111;
+  background: #111111;
+  color: #ffffff;
+  padding: .5rem .75rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.help-text {
+  margin-top: .75rem;
+  padding-top: .75rem;
+  border-top: 1px solid #d4d4d4;
+}
+
+.results-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .65rem 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.task-row span:last-child {
+  color: #525252;
+  white-space: nowrap;
+}
+
+.site-footer {
+  border-top: 1px solid #d4d4d4;
+  padding: 1rem 0 2rem;
+  color: #525252;
+}
+
+@media (max-width: 640px) {
+  .site-header,
+  .site-footer,
+  .layout {
+    width: min(100% - 1.25rem, 960px);
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding-top: 1.25rem;
+  }
+
+  .task-row {
+    align-items: flex-start;
+  }
+}

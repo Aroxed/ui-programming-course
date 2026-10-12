@@ -4,7 +4,7 @@ Runnable examples, local services, screenshots, and supporting materials for the
 
 The learning path is practical:
 
-**read the lecture → run the example locally → compare with the lecture screenshot → change the code → observe the result.**
+**read the lecture → run the example locally → inspect it in DevTools → compare with the lecture screenshot → change the code → observe and diagnose the result.**
 
 ## First setup
 
@@ -14,6 +14,8 @@ cd ui-programming-course
 npm install
 npm run doctor
 ```
+
+For the web lectures, use Browser DevTools (`F12`) and install React Developer Tools. Lecture 6 also uses Redux DevTools. For native React Native/Expo runs, use the built-in React Native DevTools opened from the Developer Menu or with `J` in the Expo terminal.
 
 ## Lecture examples
 
@@ -32,7 +34,7 @@ For Lecture 5 the root command starts both the local API and the Vite client. Fo
 
 - `examples/` — self-contained lecture snapshots
 - `services/` — local services used by examples
-- `screenshots/` — images generated from the running examples
+- `screenshots/` — images generated from the running examples and official DevTools reference images
 - `scripts/` — environment checks and helper tooling
 
 ## Visual principle
@@ -45,6 +47,17 @@ The examples intentionally look simple. Their purpose is to make the programming
 - Avoid dashboard composition, decorative gradients, large shadows, pill badges, and UI decoration that is unrelated to the concept being taught.
 - Keep CSS short enough that a student can understand why each rule exists.
 
+## DevTools learning path
+
+- Lecture 1: Browser DevTools basics — Elements, Console, Network, Sources.
+- Lecture 3: React Developer Tools — component tree and props.
+- Lecture 4: React Developer Tools — state/Hooks during interaction.
+- Lecture 5: Browser Network panel — request, status, headers, response, timing.
+- Lecture 6: React Developer Tools + Redux DevTools — local/Context/Redux state.
+- Lecture 7: React Native DevTools — Components, inspector, Console.
+- Lecture 8: React Native DevTools — navigation plus Network for API requests.
+- Lecture 13 later expands this into full debugging with breakpoints, logs, failed E2E scenarios, and root-cause analysis.
+
 ## Screenshots
 
-Screenshots are created from the executable examples with Playwright. GitHub Actions regenerates them whenever example code changes, keeping the lecture illustration tied to the actual code.
+Screenshots are created from the executable examples with Playwright. GitHub Actions regenerates them whenever example code changes, keeping the lecture illustration tied to the actual code. Official documentation screenshots used to introduce DevTools are also fetched by CI into `screenshots/devtools/` so the course has stable visual references with source attribution.

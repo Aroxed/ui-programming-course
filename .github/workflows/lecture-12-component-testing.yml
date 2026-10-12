@@ -57,6 +57,12 @@ jobs:
         working-directory: examples/lecture-12-component-testing/app
         run: npm run screenshot -- ../../../screenshots/lecture-12/component-testing.png
 
+      - name: Upload verification evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: lecture12-testing-evidence
+          path: screenshots/lecture-12/
+
       - name: Commit verified evidence
         run: |
           git config user.name 'github-actions[bot]'

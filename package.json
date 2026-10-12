@@ -1,0 +1,13 @@
+{
+  "name": "ui-programming-course",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Runnable examples and local testbed for the User Interface Programming course",
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs"
+  },
+  "engines": {
+    "node": ">=24 <25",
+    "npm": ">=10"
+  }
+}

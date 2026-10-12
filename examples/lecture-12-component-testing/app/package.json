@@ -1,0 +1,25 @@
+{
+  "name": "lecture-12-component-testing-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "vitest",
+    "test:run": "vitest run --reporter=verbose",
+    "screenshot": "node scripts/capture.mjs"
+  },
+  "dependencies": {
+    "@playwright/test": "latest",
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@vitejs/plugin-react": "latest",
+    "jsdom": "latest",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "vite": "latest",
+    "vitest": "latest"
+  }
+}

@@ -1,0 +1,12 @@
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack=createNativeStackNavigator();
+const data=[{id:1,title:'Підготувати мобільну навігацію',details:'Відкрити екран деталей через taskId.'},{id:2,title:'Перевірити loading state',details:'Показати ActivityIndicator під час завантаження.'},{id:3,title:'Зберегти чернетку',details:'Локальні дані не повинні губитися при переході.'}];
+const loadTasks=()=>new Promise(r=>setTimeout(()=>r(data),450));
+function ListScreen({navigation}){const[status,setStatus]=useState('loading');const[tasks,setTasks]=useState([]);useEffect(()=>{loadTasks().then(v=>{setTasks(v);setStatus('success')})},[]);return <View style={s.screen}><Text style={s.h1}>Завдання</Text>{status==='loading'?<ActivityIndicator accessibilityLabel="Завантаження"/>:<FlatList data={tasks} keyExtractor={i=>String(i.id)} renderItem={({item})=><Pressable accessibilityRole="button" onPress={()=>navigation.navigate('Details',{taskId:item.id})} style={s.row}><Text style={s.title}>{item.title}</Text><Text style={s.arrow}>›</Text></Pressable>}/>}</View>}
+function DetailsScreen({route,navigation}){const task=data.find(t=>t.id===route.params.taskId);return <View style={s.screen}><Text style={s.meta}>taskId = {route.params.taskId}</Text><Text style={s.h1}>{task.title}</Text><Text style={s.copy}>{task.details}</Text><Pressable accessibilityRole="button" onPress={()=>navigation.goBack()}><Text style={s.link}>← Назад</Text></Pressable></View>}
+export default function App(){return <NavigationContainer><Stack.Navigator screenOptions={{headerTitleStyle:{fontWeight:'600'}}}><Stack.Screen name="Tasks" component={ListScreen} options={{title:'Task app'}}/><Stack.Screen name="Details" component={DetailsScreen} options={{title:'Деталі'}}/></Stack.Navigator></NavigationContainer>}
+const s=StyleSheet.create({screen:{flex:1,width:'100%',maxWidth:430,alignSelf:'center',padding:24,backgroundColor:'#fff'},h1:{fontSize:28,fontWeight:'600',marginBottom:18},meta:{color:'#666',marginBottom:6},row:{flexDirection:'row',justifyContent:'space-between',gap:12,paddingVertical:16,borderBottomWidth:1,borderBottomColor:'#ddd'},title:{fontSize:16,flex:1},arrow:{fontSize:24,color:'#666'},copy:{fontSize:16,lineHeight:24,marginBottom:28},link:{color:'#1d4ed8',fontSize:16}});

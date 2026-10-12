@@ -1,0 +1,6 @@
+import { expect,test } from '@playwright/test'; import fs from 'node:fs'; import path from 'node:path'; const dir=path.resolve(process.cwd(),'../../screenshots/lecture-05');const shot=n=>{fs.mkdirSync(dir,{recursive:true});return path.join(dir,n)};
+test('list',async({page})=>{await page.goto('/tasks');await expect(page.getByText('Підготувати приклад маршрутизації')).toBeVisible();await page.screenshot({path:shot('01-task-list.png'),fullPage:true})});
+test('details',async({page})=>{await page.goto('/tasks/2');await expect(page.getByRole('heading',{name:'Перевірити API стани'})).toBeVisible();await page.screenshot({path:shot('02-task-details.png'),fullPage:true})});
+test('empty',async({page})=>{await page.goto('/tasks?mode=empty');await expect(page.getByText('Завдань поки немає.')).toBeVisible();await page.screenshot({path:shot('03-empty-state.png'),fullPage:true})});
+test('error',async({page})=>{await page.goto('/tasks?mode=error');await expect(page.getByRole('alert')).toBeVisible();await page.screenshot({path:shot('04-error-state.png'),fullPage:true})});
+test('loading',async({page})=>{await page.goto('/tasks?mode=slow');await expect(page.getByRole('status')).toBeVisible();await page.screenshot({path:shot('05-loading-state.png'),fullPage:true})});

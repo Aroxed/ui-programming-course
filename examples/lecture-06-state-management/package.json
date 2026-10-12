@@ -1,0 +1,1 @@
+{"name":"@course/lecture-06-state-management","private":true,"scripts":{"dev":"vite","build":"vite build","screenshots":"playwright test"},"dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest","@reduxjs/toolkit":"latest","react-redux":"latest","@playwright/test":"latest"}}

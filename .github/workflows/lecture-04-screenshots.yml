@@ -1,11 +1,11 @@
-name: Lecture 4 screenshots
+name: Course example screenshots
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
-      - 'examples/lecture-04-state-events-forms/**'
+      - 'examples/**'
+      - 'services/**'
       - 'package.json'
       - '.github/workflows/lecture-04-screenshots.yml'
   workflow_dispatch:
@@ -14,52 +14,40 @@ permissions:
   contents: write
 
 concurrency:
-  group: lecture-04-screenshots
+  group: course-screenshots
   cancel-in-progress: true
 
 jobs:
   screenshots:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js 24
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '24'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build Lecture 4 example
-        run: npm run build:04
-
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
-
-      - name: Generate screenshots from the running example
-        run: npm run screenshots:04
-
-      - name: Upload screenshot artifact
-        uses: actions/upload-artifact@v4
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm run screenshots:03
+      - run: npm run screenshots:04
+      - run: npm run screenshots:05
+      - run: npm run screenshots:06
+      - run: npm run screenshots:07
+      - run: npm run screenshots:08
+      - uses: actions/upload-artifact@v4
         with:
-          name: lecture-04-screenshots
-          path: screenshots/lecture-04/*.png
+          name: course-screenshots
+          path: screenshots/lecture-*/*.png
           if-no-files-found: error
-
       - name: Commit refreshed screenshots
         shell: bash
         run: |
-          if [ -z "$(git status --porcelain -- screenshots/lecture-04)" ]; then
+          if [ -z "$(git status --porcelain -- screenshots)" ]; then
             echo "Screenshots are already up to date."
             exit 0
           fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add screenshots/lecture-04
-          git commit -m "Refresh Lecture 4 screenshots"
+          git add screenshots
+          git commit -m "Refresh course example screenshots"
           git pull --rebase origin main
-          git push origin HEAD:main
+          git push

@@ -1,0 +1,1 @@
+import{createSlice}from'@reduxjs/toolkit';const slice=createSlice({name:'selection',initialState:[],reducers:{toggle:(state,{payload})=>state.includes(payload)?state.filter(id=>id!==payload):[...state,payload],clear:()=>[]}});export const{toggle,clear}=slice.actions;export default slice.reducer;

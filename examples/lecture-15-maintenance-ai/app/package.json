@@ -1,0 +1,19 @@
+{
+  "name": "lecture-15-maintenance-ai-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4175",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4175",
+    "test:maintenance": "playwright test --reporter=line"
+  },
+  "dependencies": {
+    "@playwright/test": "latest",
+    "@vitejs/plugin-react": "latest",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "vite": "latest"
+  },
+  "devDependencies": {}
+}

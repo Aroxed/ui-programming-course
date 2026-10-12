@@ -8,9 +8,9 @@ The course uses a practical learning path:
 
 ## Repository structure
 
-- `examples/` — runnable examples for individual lectures
+- `examples/` — runnable snapshots for individual lectures
 - `services/` — local services used by examples
-- `screenshots/` — screenshots generated from running examples
+- `screenshots/` — images generated from running examples
 - `scripts/` — environment checks and course tooling
 
 ## Requirements
@@ -25,7 +25,7 @@ The required Node major version is fixed in `.nvmrc` and `package.json`.
 ## First setup
 
 ```bash
-git clone https://github.com/Aroxed/ui-programming-course.git
+git clone -b main https://github.com/Aroxed/ui-programming-course.git
 cd ui-programming-course
 npm install
 npm run doctor
@@ -35,6 +35,44 @@ npm run doctor
 
 ## Learning examples
 
-Examples are organized by lecture. Each lecture directory is intended to be a self-contained, runnable snapshot rather than a branch that depends on unfinished work from an earlier lecture.
+Each lecture directory is a self-contained runnable snapshot. A student can open a specific lecture without depending on unfinished work from a previous lecture.
 
-The first complete vertical slice will be **Lecture 4 — React state, events, and forms**. It will include runnable code, deterministic UI states, screenshots generated from the running example, and a direct link from the lecture material to the corresponding repository directory.
+### Lecture 4 — State, events, and forms in React
+
+Run:
+
+```bash
+npm run lecture:04
+```
+
+The example demonstrates controlled form fields, validation, event handlers, local state, derived counters, immutable task updates, and an Effect that synchronizes the browser tab title.
+
+Source:
+
+```text
+examples/lecture-04-state-events-forms/
+```
+
+Deterministic screenshot scenarios are generated with Playwright:
+
+```bash
+npx playwright install chromium
+npm run screenshots:04
+```
+
+Generated images are stored in:
+
+```text
+screenshots/lecture-04/
+```
+
+The same screenshot workflow runs in GitHub Actions so course illustrations remain tied to executable code.
+
+## Course convention
+
+For each practical lecture we aim to keep four things synchronized in one commit:
+
+1. lecture explanation;
+2. runnable example;
+3. screenshot scenarios;
+4. screenshots produced by those scenarios.

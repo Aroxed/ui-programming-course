@@ -1,35 +1,14 @@
 import { useEffect, useState } from 'react';
 
 const initialTasks = [
-  {
-    id: 1,
-    title: 'Повторити нотатки про стан React',
-    priority: 'medium',
-    completed: false,
-  },
-  {
-    id: 2,
-    title: 'Підготувати чекліст лабораторної роботи',
-    priority: 'high',
-    completed: true,
-  },
-  {
-    id: 3,
-    title: 'Прочитати матеріал про валідацію форм',
-    priority: 'low',
-    completed: false,
-  },
+  { id: 1, title: 'Повторити нотатки про стан React', priority: 'Середній', completed: false },
+  { id: 2, title: 'Підготувати чекліст лабораторної роботи', priority: 'Високий', completed: true },
+  { id: 3, title: 'Прочитати матеріал про валідацію форм', priority: 'Низький', completed: false },
 ];
-
-const priorityLabels = {
-  low: 'Низький',
-  medium: 'Середній',
-  high: 'Високий',
-};
 
 export default function App() {
   const [title, setTitle] = useState('');
-  const [priority, setPriority] = useState('medium');
+  const [priority, setPriority] = useState('Середній');
   const [tasks, setTasks] = useState(initialTasks);
   const [error, setError] = useState('');
 
@@ -42,15 +21,11 @@ export default function App() {
 
   function handleTitleChange(event) {
     setTitle(event.target.value);
-
-    if (error) {
-      setError('');
-    }
+    setError('');
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-
     const normalizedTitle = title.trim();
 
     if (normalizedTitle.length < 3) {
@@ -58,151 +33,102 @@ export default function App() {
       return;
     }
 
-    setTasks((currentTasks) => {
-      const nextId = Math.max(...currentTasks.map((task) => task.id), 0) + 1;
-
-      return [
-        ...currentTasks,
-        {
-          id: nextId,
-          title: normalizedTitle,
-          priority,
-          completed: false,
-        },
-      ];
-    });
+    setTasks((currentTasks) => [
+      ...currentTasks,
+      {
+        id: Date.now(),
+        title: normalizedTitle,
+        priority,
+        completed: false,
+      },
+    ]);
 
     setTitle('');
-    setPriority('medium');
-    setError('');
+    setPriority('Середній');
   }
 
   function handleToggle(taskId) {
     setTasks((currentTasks) =>
       currentTasks.map((task) =>
-        task.id === taskId
-          ? { ...task, completed: !task.completed }
-          : task,
+        task.id === taskId ? { ...task, completed: !task.completed } : task,
       ),
     );
   }
 
   return (
-    <main className="page-shell">
-      <header className="page-header">
-        <p className="course-meta">Лекція 4 / React</p>
+    <main>
+      <header>
+        <p className="meta">Лекція 4 · React</p>
         <h1>Планувальник завдань</h1>
-        <p className="page-intro">
-          Приклад стану, подій, контрольованої форми, валідації та незмінних оновлень.
-          Заголовок вкладки синхронізується через Effect.
+        <p className="intro">
+          Стан, події, контрольована форма та валідація на одному невеликому прикладі.
         </p>
-
-        <div className="flow-line" aria-label="Цикл оновлення React">
-          <span>Дія</span>
-          <span aria-hidden="true">→</span>
-          <span>Подія</span>
-          <span aria-hidden="true">→</span>
-          <span>Стан</span>
-          <span aria-hidden="true">→</span>
-          <span>Новий UI</span>
-        </div>
+        <p className="cycle">Дія → подія → стан → новий UI</p>
       </header>
 
-      <section className="workspace" aria-label="Застосунок керування завданнями">
-        <article className="workspace-section form-section">
-          <div className="section-heading">
-            <div>
-              <p className="section-label">Контрольована форма</p>
-              <h2>Нове завдання</h2>
-            </div>
-            <code className="state-readout">title = {JSON.stringify(title)}</code>
-          </div>
+      <section>
+        <h2>Нове завдання</h2>
 
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="field">
-              <label htmlFor="task-title">Назва завдання</label>
-              <input
-                id="task-title"
-                name="title"
-                type="text"
-                value={title}
-                onChange={handleTitleChange}
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? 'title-error' : 'title-help'}
-                placeholder="Наприклад, підготувати скріншоти лекції"
-              />
+        <form onSubmit={handleSubmit} noValidate>
+          <label htmlFor="task-title">Назва завдання</label>
+          <input
+            id="task-title"
+            value={title}
+            onChange={handleTitleChange}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? 'title-error' : 'title-state'}
+            placeholder="Наприклад, підготувати скріншоти лекції"
+          />
 
-              {error ? (
-                <p className="field-note error" id="title-error" role="alert">
-                  {error}
-                </p>
-              ) : (
-                <p className="field-note" id="title-help">
-                  Значення поля зберігається у стані React після кожної події зміни.
-                </p>
-              )}
-            </div>
-
-            <div className="field">
-              <label htmlFor="task-priority">Пріоритет</label>
-              <select
-                id="task-priority"
-                name="priority"
-                value={priority}
-                onChange={(event) => setPriority(event.target.value)}
-              >
-                <option value="low">Низький</option>
-                <option value="medium">Середній</option>
-                <option value="high">Високий</option>
-              </select>
-            </div>
-
-            <button className="primary-button" type="submit">
-              Додати завдання
-            </button>
-          </form>
-        </article>
-
-        <article className="workspace-section tasks-section">
-          <div className="section-heading tasks-heading">
-            <div>
-              <p className="section-label">Похідні значення</p>
-              <h2>Завдання</h2>
-            </div>
-
-            <p className="task-summary" aria-label="Лічильники завдань">
-              <strong>{openCount}</strong> активні
-              <span aria-hidden="true">·</span>
-              <strong>{completedCount}</strong> виконано
+          {error ? (
+            <p className="error" id="title-error" role="alert">{error}</p>
+          ) : (
+            <p className="hint" id="title-state">
+              <code>title = {JSON.stringify(title)}</code>
             </p>
-          </div>
+          )}
 
-          <ul className="task-list">
-            {tasks.map((task) => (
-              <li className={task.completed ? 'task completed' : 'task'} key={task.id}>
-                <label className="task-check">
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() => handleToggle(task.id)}
-                  />
-                  <span className="checkmark" aria-hidden="true" />
-                </label>
+          <label htmlFor="task-priority">Пріоритет</label>
+          <select
+            id="task-priority"
+            value={priority}
+            onChange={(event) => setPriority(event.target.value)}
+          >
+            <option>Низький</option>
+            <option>Середній</option>
+            <option>Високий</option>
+          </select>
 
-                <div className="task-copy">
-                  <span className="task-title">{task.title}</span>
-                  <span className="priority">{priorityLabels[task.priority]}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </article>
+          <button type="submit">Додати завдання</button>
+        </form>
       </section>
 
-      <footer className="lesson-note">
-        <strong>Спостерігайте:</strong> кожна видима зміна походить зі стану. Події змінюють стан,
-        а React формує наступний UI з його актуального значення.
-      </footer>
+      <section>
+        <div className="list-heading">
+          <h2>Завдання</h2>
+          <p>{openCount} активні · {completedCount} виконано</p>
+        </div>
+
+        <ul>
+          {tasks.map((task) => (
+            <li key={task.id} className={task.completed ? 'completed' : ''}>
+              <label className="task">
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => handleToggle(task.id)}
+                />
+                <span>{task.title}</span>
+              </label>
+              <small>{task.priority}</small>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <p className="note">
+        Події змінюють стан, а React відображає інтерфейс з його нового значення.
+      </p>
     </main>
   );
 }

@@ -5,14 +5,14 @@
 
 [1m[30m[46m RUN [49m[39m[22m [36mv5.0.4 [39m[90m/home/runner/work/ui-programming-course/ui-programming-course/examples/lecture-12-component-testing/app[39m
 
- [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mrenders controls through accessible roles and labels[32m 151[2mms[22m[39m
- [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mupdates visible state after a user toggles the task[32m 45[2mms[22m[39m
- [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mrejects an empty title before calling the save service[32m 41[2mms[22m[39m
- [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mshows progress and confirmation for a successful async save[32m 32[2mms[22m[39m
- [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mshows a user-visible error when async save fails[32m 19[2mms[22m[39m
+ [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mrenders controls through accessible roles and labels[32m 92[2mms[22m[39m
+ [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mupdates visible state after a user toggles the task[32m 32[2mms[22m[39m
+ [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mrejects an empty title before calling the save service[32m 29[2mms[22m[39m
+ [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mshows progress and confirmation for a successful async save[32m 25[2mms[22m[39m
+ [32m✓[39m src/TaskEditor.test.jsx[2m > [22mTaskEditor[2m > [22mshows a user-visible error when async save fails[32m 16[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
 [2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
-[2m   Start at [22m 18:09:19
-[2m   Duration [22m 1.20s[2m (environment 54%, tests 27%, setup 7%, import 6%, transform 5%, worker 1%)[22m
+[2m   Start at [22m 18:15:20
+[2m   Duration [22m 797ms[2m (environment 54%, tests 28%, setup 6%, import 6%, transform 6%, worker 1%)[22m
 

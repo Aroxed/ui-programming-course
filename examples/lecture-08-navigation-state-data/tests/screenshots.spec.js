@@ -15,7 +15,7 @@ test('loading then list', async ({ page }) => {
   await expect(page.getByLabel('Завантаження')).toBeVisible();
   await page.screenshot({ path: shot('01-loading.png'), fullPage: true });
 
-  await expect(page.getByText(firstTaskTitle)).toBeVisible({ timeout: 10000 });
+  await expect(page.getByText(firstTaskTitle).first()).toBeVisible({ timeout: 10000 });
   await page.screenshot({ path: shot('02-task-list.png'), fullPage: true });
 });
 
@@ -26,6 +26,6 @@ test('details params', async ({ page }) => {
   await taskButton.click();
 
   await expect(page.getByText('taskId = 1')).toBeVisible();
-  await expect(page.getByText(firstTaskTitle)).toBeVisible();
+  await expect(page.getByText(firstTaskTitle).last()).toBeVisible();
   await page.screenshot({ path: shot('03-details-route-param.png'), fullPage: true });
 });

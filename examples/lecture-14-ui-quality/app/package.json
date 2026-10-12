@@ -1,0 +1,20 @@
+{
+  "name": "lecture-14-ui-quality-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4174",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4174",
+    "test:quality": "playwright test --reporter=line"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "latest",
+    "@playwright/test": "latest",
+    "@vitejs/plugin-react": "latest",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "vite": "latest"
+  },
+  "devDependencies": {}
+}

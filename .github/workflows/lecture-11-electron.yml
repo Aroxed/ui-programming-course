@@ -1,0 +1,55 @@
+name: Lecture 11 Electron runtime screenshot
+
+on:
+  push:
+    paths:
+      - 'examples/lecture-11-electron/**'
+      - '.github/workflows/lecture-11-electron.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  electron:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Linux runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb libgtk-3-0 libnss3 libgbm1
+
+      - name: Install Electron example
+        run: npm --prefix examples/lecture-11-electron/app install --no-audit --no-fund
+
+      - name: Launch real Electron app and capture BrowserWindow
+        run: xvfb-run -a npm --prefix examples/lecture-11-electron/app run screenshot
+
+      - name: Verify screenshot
+        run: test -s screenshots/lecture-11/electron-task-desktop.png
+
+      - name: Upload screenshot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lecture11-electron-runtime
+          path: screenshots/lecture-11/electron-task-desktop.png
+
+      - name: Commit refreshed screenshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add screenshots/lecture-11/electron-task-desktop.png
+          if git diff --cached --quiet; then
+            echo 'Screenshot unchanged.'
+          else
+            git commit -m 'Refresh Lecture 11 Electron runtime screenshot'
+            git push
+          fi

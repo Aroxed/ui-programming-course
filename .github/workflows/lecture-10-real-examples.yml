@@ -71,6 +71,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
+      - uses: android-actions/setup-android@v3
       - name: Install Android SDK platform used by the example
         run: yes | sdkmanager 'platforms;android-36' 'build-tools;35.0.0' >/dev/null
       - name: Enable KVM

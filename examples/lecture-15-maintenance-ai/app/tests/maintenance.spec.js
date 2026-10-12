@@ -1,3 +1,4 @@
+import { mkdir } from 'node:fs/promises';
 import { test, expect } from '@playwright/test';
 
 test('preserves existing search and status behavior', async ({ page }) => {
@@ -37,5 +38,6 @@ test('captures verified maintained UI', async ({ page }) => {
   await page.goto('/');
   await page.getByLabel('Пріоритет').selectOption('high');
   await expect(page.getByRole('listitem')).toHaveCount(2);
-  await page.screenshot({ path: '../../screenshots/lecture-15/maintenance-priority-filter.png', fullPage: true });
+  await mkdir('../screenshots/lecture-15', { recursive: true });
+  await page.screenshot({ path: '../screenshots/lecture-15/maintenance-priority-filter.png', fullPage: true });
 });

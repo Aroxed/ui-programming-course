@@ -70,16 +70,17 @@ The same screenshot workflow runs in GitHub Actions so course illustrations rema
 
 ## Visual design principle
 
-All course examples use one restrained visual language. The examples should look like real, well-made interfaces without becoming showcase designs or generic AI/SaaS dashboards.
+Course examples are intentionally plain. Their purpose is to make behaviour and code easy to understand, not to demonstrate a design system.
 
-- Prefer a minimal layout with clear hierarchy, spacing, and thin borders.
-- Use modern Google Fonts with a consistent sans-serif / monospace pairing where code or state values are shown.
-- Keep the palette mostly neutral. Use one accent for focus/interaction and extra colors only when they carry semantic meaning such as an error.
-- Avoid decorative gradients, large soft shadows, excessive rounded cards, pill-shaped labels, and multi-colour status systems unless the interface problem actually requires them.
-- Keep shared CSS ideas consistent across lectures: typography scale, spacing rhythm, form controls, focus states, borders, and semantic tokens.
-- Let the UI demonstrate the programming concept. Decoration must not compete with the behaviour being studied.
+- Prefer one-column layouts and ordinary document flow when possible.
+- Use one modern Google Font per example unless a second font is technically useful.
+- Use mostly black, white, and gray; add colour only for focus, validation, or another semantic reason.
+- Prefer native controls and simple borders over custom widgets.
+- Avoid dashboards, card grids, gradients, soft shadows, pills, decorative status blocks, and other patterns that make small examples look like SaaS products.
+- Keep CSS short enough that a student can read it without the styling becoming a separate lesson.
+- Add complexity only when the lecture topic requires it.
 
-Lecture 4 establishes the first implementation of this visual system with IBM Plex Sans / IBM Plex Mono, a neutral palette, a single bordered workspace, and semantic colour only for focus and validation.
+Lecture 4 is the baseline: a single column, standard form controls, a plain task list, Source Sans 3, and no decorative container UI.
 
 ## Course convention
 

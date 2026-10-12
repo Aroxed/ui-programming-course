@@ -2,25 +2,9 @@
 
 Runnable examples, local services, screenshots, and supporting materials for the distance course **«Програмування інтерфейсів користувача»**.
 
-The course uses a practical learning path:
+The learning path is practical:
 
-**read the lecture → run the example locally → compare the result with the lecture screenshots → modify the code → observe the change.**
-
-## Repository structure
-
-- `examples/` — runnable snapshots for individual lectures
-- `services/` — local services used by examples
-- `screenshots/` — images generated from running examples
-- `scripts/` — environment checks and course tooling
-
-## Requirements
-
-- Node.js 24 LTS
-- npm
-- a modern web browser
-- Expo / Android tooling will be introduced when the course reaches React Native examples
-
-The required Node major version is fixed in `.nvmrc` and `package.json`.
+**read the lecture → run the example locally → compare with the lecture screenshot → change the code → observe the result.**
 
 ## First setup
 
@@ -31,62 +15,36 @@ npm install
 npm run doctor
 ```
 
-`npm run doctor` checks the basic local environment before a student starts the examples.
-
-## Learning examples
-
-Each lecture directory is a self-contained runnable snapshot. A student can open a specific lecture without depending on unfinished work from a previous lecture.
-
-### Lecture 4 — State, events, and forms in React
-
-Run:
+## Lecture examples
 
 ```bash
-npm run lecture:04
+npm run lecture:03   # JSX, components, props, composition
+npm run lecture:04   # state, events, forms
+npm run lecture:05   # React Router + local HTTP API
+npm run lecture:06   # Context + Redux Toolkit + local state
+npm run lecture:07   # React Native basics with Expo Web
+npm run lecture:08   # React Native navigation, params and data
 ```
 
-The example demonstrates controlled form fields, validation, event handlers, local state, derived counters, immutable task updates, and an Effect that synchronizes the browser tab title.
+For Lecture 5 the root command starts both the local API and the Vite client. For Lectures 7–8 the command starts Expo for the web target; the same projects can also be opened through Expo tooling on supported mobile environments.
 
-Source:
+## Repository structure
 
-```text
-examples/lecture-04-state-events-forms/
-```
+- `examples/` — self-contained lecture snapshots
+- `services/` — local services used by examples
+- `screenshots/` — images generated from the running examples
+- `scripts/` — environment checks and helper tooling
 
-Deterministic screenshot scenarios are generated with Playwright:
+## Visual principle
 
-```bash
-npx playwright install chromium
-npm run screenshots:04
-```
+The examples intentionally look simple. Their purpose is to make the programming concept easy to read and reproduce.
 
-Generated images are stored in:
+- Prefer ordinary page structure before adding layout systems.
+- Use one readable typeface and mostly neutral colours.
+- Use native-looking form controls where possible.
+- Avoid dashboard composition, decorative gradients, large shadows, pill badges, and UI decoration that is unrelated to the concept being taught.
+- Keep CSS short enough that a student can understand why each rule exists.
 
-```text
-screenshots/lecture-04/
-```
+## Screenshots
 
-The same screenshot workflow runs in GitHub Actions so course illustrations remain tied to executable code.
-
-## Visual design principle
-
-Course examples are intentionally plain. Their purpose is to make behaviour and code easy to understand, not to demonstrate a design system.
-
-- Prefer one-column layouts and ordinary document flow when possible.
-- Use one modern Google Font per example unless a second font is technically useful.
-- Use mostly black, white, and gray; add colour only for focus, validation, or another semantic reason.
-- Prefer native controls and simple borders over custom widgets.
-- Avoid dashboards, card grids, gradients, soft shadows, pills, decorative status blocks, and other patterns that make small examples look like SaaS products.
-- Keep CSS short enough that a student can read it without the styling becoming a separate lesson.
-- Add complexity only when the lecture topic requires it.
-
-Lecture 4 is the baseline: a single column, standard form controls, a plain task list, Source Sans 3, and no decorative container UI.
-
-## Course convention
-
-For each practical lecture we aim to keep four things synchronized in one commit:
-
-1. lecture explanation;
-2. runnable example;
-3. screenshot scenarios;
-4. screenshots produced by those scenarios.
+Screenshots are created from the executable examples with Playwright. GitHub Actions regenerates them whenever example code changes, keeping the lecture illustration tied to the actual code.

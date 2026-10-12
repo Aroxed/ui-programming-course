@@ -40,9 +40,8 @@ export default function App() {
   const [helpOpen, setHelpOpen] = useState(false);
 
   const optimized = mode === 'optimized';
-  const visibleTasks = optimized
-    ? useMemo(() => filterTasks(tasks, query), [query])
-    : filterTasks(tasks, query);
+  const memoizedTasks = useMemo(() => filterTasks(tasks, query), [query]);
+  const visibleTasks = optimized ? memoizedTasks : filterTasks(tasks, query);
   const Row = optimized ? MemoTaskRow : TaskRow;
 
   function changeMode(nextMode) {
@@ -64,7 +63,7 @@ export default function App() {
         </div>
       </header>
 
-      <main id="content" className="layout">
+      <main id="content" className="layout" tabIndex="-1">
         <section className="controls" aria-labelledby="controls-title">
           <h2 id="controls-title">Налаштування прикладу</h2>
 

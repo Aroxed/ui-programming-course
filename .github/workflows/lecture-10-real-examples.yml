@@ -1,0 +1,132 @@
+name: Lecture 10 real runtime screenshots
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/lecture-10-comparison/**'
+      - 'package.json'
+      - '.github/workflows/lecture-10-real-examples.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lecture-10-real-screenshots
+  cancel-in-progress: true
+
+jobs:
+  react-native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm run screenshots:10:rn
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lecture10-react-native
+          path: screenshots/lecture-10/react-native-task.png
+          if-no-files-found: error
+
+  flutter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Build Flutter Web runtime
+        working-directory: examples/lecture-10-comparison/flutter
+        run: |
+          flutter create --platforms=web --project-name lecture10_flutter .
+          flutter pub get
+          flutter build web --release
+      - name: Capture real Flutter Web result
+        run: |
+          mkdir -p screenshots/lecture-10
+          python3 -m http.server 4182 --bind 127.0.0.1 --directory examples/lecture-10-comparison/flutter/build/web >/tmp/lecture10-flutter.log 2>&1 &
+          timeout 60 bash -c 'until curl -fsS http://127.0.0.1:4182 >/dev/null; do sleep 1; done'
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable)"
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --hide-scrollbars --window-size=430,900 --screenshot="$GITHUB_WORKSPACE/screenshots/lecture-10/flutter-task.png" http://127.0.0.1:4182
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lecture10-flutter
+          path: screenshots/lecture-10/flutter-task.png
+          if-no-files-found: error
+
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Install Android SDK platform used by the example
+        run: yes | sdkmanager 'platforms;android-36' 'build-tools;35.0.0' >/dev/null
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Build, run and capture Android Compose app
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_2
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          script: |
+            cd examples/lecture-10-comparison/android-compose
+            gradle :app:installDebug --stacktrace
+            adb shell wm size 430x900
+            adb shell wm density 160
+            adb shell settings put system accelerometer_rotation 0
+            adb shell settings put system user_rotation 0
+            adb shell am force-stop online.momentguide.lecture10
+            adb shell am start -W -n online.momentguide.lecture10/.MainActivity
+            sleep 4
+            adb shell uiautomator dump /sdcard/lecture10.xml
+            adb pull /sdcard/lecture10.xml "$GITHUB_WORKSPACE/lecture10.xml"
+            grep -q 'Перевірити обладнання' "$GITHUB_WORKSPACE/lecture10.xml"
+            mkdir -p "$GITHUB_WORKSPACE/screenshots/lecture-10"
+            adb exec-out screencap -p > "$GITHUB_WORKSPACE/screenshots/lecture-10/android-compose-task.png"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lecture10-android
+          path: screenshots/lecture-10/android-compose-task.png
+          if-no-files-found: error
+
+  collect:
+    needs: [react-native, flutter, android]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: lecture10-*
+          merge-multiple: true
+          path: screenshots/lecture-10
+      - name: Commit verified runtime screenshots
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add screenshots/lecture-10/*.png
+          if git diff --cached --quiet; then
+            echo 'Lecture 10 screenshots are already current.'
+            exit 0
+          fi
+          git commit -m 'Refresh Lecture 10 real runtime screenshots'
+          git pull --rebase origin main
+          git push

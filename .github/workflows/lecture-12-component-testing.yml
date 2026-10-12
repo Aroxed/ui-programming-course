@@ -1,0 +1,70 @@
+name: Lecture 12 component testing
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'examples/lecture-12-component-testing/**'
+      - '.github/workflows/lecture-12-component-testing.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test-and-capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install Lecture 12 dependencies
+        working-directory: examples/lecture-12-component-testing/app
+        run: npm install
+
+      - name: Run real component tests
+        working-directory: examples/lecture-12-component-testing/app
+        run: |
+          mkdir -p ../../../screenshots/lecture-12
+          set -o pipefail
+          npm run test:run 2>&1 | tee ../../../screenshots/lecture-12/vitest-output.txt
+
+      - name: Install Playwright Chromium
+        working-directory: examples/lecture-12-component-testing/app
+        run: npx playwright install --with-deps chromium
+
+      - name: Build real app
+        working-directory: examples/lecture-12-component-testing/app
+        run: npm run build
+
+      - name: Start Vite preview
+        working-directory: examples/lecture-12-component-testing/app
+        run: |
+          npm run preview > /tmp/lecture12-vite.log 2>&1 &
+          for i in {1..30}; do
+            if curl -sf http://127.0.0.1:4173 >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/lecture12-vite.log
+          exit 1
+
+      - name: Capture real running component
+        working-directory: examples/lecture-12-component-testing/app
+        run: npm run screenshot -- ../../../screenshots/lecture-12/component-testing.png
+
+      - name: Commit verified evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add screenshots/lecture-12/component-testing.png screenshots/lecture-12/vitest-output.txt
+          if git diff --cached --quiet; then
+            echo 'No evidence changes.'
+          else
+            git commit -m 'Refresh Lecture 12 verified testing evidence'
+            git push
+          fi

@@ -1,0 +1,12 @@
+
+> test:e2e
+> playwright test --reporter=line
+
+
+Running 4 tests using 1 worker
+
+[1/4] tests/e2e.spec.js:12:1 › loads the task list and opens task details
+[2/4] tests/e2e.spec.js:25:1 › prevents an empty task from reaching the API
+[3/4] tests/e2e.spec.js:38:1 › creates a task through the real API and opens its details
+[4/4] tests/e2e.spec.js:57:1 › shows a user-facing error when the API returns 500
+  4 passed (2.0s)

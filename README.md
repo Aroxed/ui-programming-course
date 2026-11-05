@@ -6,6 +6,18 @@ The learning path is practical:
 
 **read the lecture → run the example locally → inspect it in DevTools → compare with the lecture screenshot → change the code → observe and diagnose the result.**
 
+## Мапа навчальних матеріалів Л1–Л15
+
+Навчальний зміст і контрольні заходи розміщено в Moodle. У цьому репозиторії зберігається **єдина актуальна версія коду прикладів**, без копій ZIP у лекціях.
+
+- [Усі приклади Л1–Л15](examples/README.md)
+- [Відповідність лекцій та каталогів коду](docs/course-code-map.md)
+- [ЛР1, ЛР2 та РГР – матеріали й посилання](assignments/README.md)
+- [Лекція 1 – TaskApp з локальним Python HTTP API](examples/lecture-01-ui-system/README.md)
+- [Лекція 2 – компонентна декомпозиція без React](examples/lecture-02-component-model/README.md)
+
+Для Л1 і Л2 достатньо Python 3 та браузера, не потрібно встановлювати npm. Л3–Л15 мають окремі README й свої інструменти запуску.
+
 ## First setup
 
 ```bash

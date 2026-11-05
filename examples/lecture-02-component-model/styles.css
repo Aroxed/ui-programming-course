@@ -1,0 +1,14 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #f4f6fa; color: #19283e; font: 16px/1.55 system-ui, sans-serif; }
+.shell { max-width: 780px; margin: 44px auto; border: 1px solid #e1e5ed; border-radius: 10px; background: white; padding: 26px; }
+h1 { margin-top: 0; } h2 { font-size: 1.15rem; margin: 0 0 10px; }
+label { display: block; margin-bottom: 7px; font-weight: 600; }
+input[type=text] { padding: 9px; font: inherit; min-width: 0; flex: 1; }
+button { border: 1px solid #b8c5da; background: #eaf0fa; color: #17385e; border-radius: 6px; padding: 8px 12px; font: inherit; cursor: pointer; }
+button:hover { background: #dce7f8; } button:focus-visible,input:focus-visible { outline: 2px solid #2457d6; outline-offset: 2px; }
+.entry { display: flex; gap: 8px; }
+ul { padding-left: 20px; } li { padding: 5px 0; }
+.task-row { display: flex; gap: 10px; align-items: center; }
+.summary { margin-top: 16px; border-top: 1px solid #e1e5ed; padding-top: 12px; }
+.hint { color: #55677d; font-size: .92rem; border-left: 3px solid #2457d6; padding-left: 10px; }
+@media (max-width: 650px) { .shell { margin: 0; min-height: 100vh; border: 0; border-radius: 0; } }

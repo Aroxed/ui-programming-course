@@ -1,0 +1,18 @@
+{
+  "scenario": "student-taskapp",
+  "tasks": [
+    {
+      "title": "Підготуватися до семінару",
+      "completed": false
+    },
+    {
+      "title": "Виконати лабораторну роботу",
+      "completed": true
+    },
+    {
+      "title": "Завантажити звіт у Moodle",
+      "completed": false
+    }
+  ],
+  "notes": "Canonical order. L1–L2 use IDs 41–43; shared API 1–3."
+}

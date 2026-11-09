@@ -9,8 +9,9 @@ const uiState = {
 };
 
 const tasks = [
-  { id: 41, title: 'Підготувати лекцію', completed: false },
-  { id: 42, title: 'Перевірити лабораторну роботу', completed: true }
+  { id: 41, title: 'Підготуватися до семінару', completed: false },
+  { id: 42, title: 'Виконати лабораторну роботу', completed: true },
+  { id: 43, title: 'Завантажити звіт у Moodle', completed: false }
 ];
 
 const form = document.querySelector('#task-form');

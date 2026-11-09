@@ -1,7 +1,7 @@
 const tasks = [
-  { id: 1, title: 'Прочитати розділ про JSX', priority: 'Високий' },
-  { id: 2, title: 'Виділити TaskItem в окремий компонент', priority: 'Середній' },
-  { id: 3, title: 'Перевірити key у списку', priority: 'Низький' },
+  { id: 1, title: 'Підготуватися до семінару', priority: 'Високий' },
+  { id: 2, title: 'Виконати лабораторну роботу', priority: 'Середній' },
+  { id: 3, title: 'Завантажити звіт у Moodle', priority: 'Низький' },
 ];
 
 function TaskItem({ task }) {

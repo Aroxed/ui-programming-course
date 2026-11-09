@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: examples/lecture-15-maintenance-ai/app
-        run: npm install
+        run: npm ci
 
       - name: Install Chromium
         working-directory: examples/lecture-15-maintenance-ai/app

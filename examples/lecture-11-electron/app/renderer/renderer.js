@@ -1,5 +1,5 @@
 const state = {
-  title: 'Підготувати desktop-версію проєкту',
+  title: 'Завантажити звіт у Moodle',
   completed: false
 };
 

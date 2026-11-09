@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 const initialTasks = [
-  { id: 1, title: 'Повторити нотатки про стан React', priority: 'Середній', completed: false },
-  { id: 2, title: 'Підготувати чекліст лабораторної роботи', priority: 'Високий', completed: true },
-  { id: 3, title: 'Прочитати матеріал про валідацію форм', priority: 'Низький', completed: false },
+  { id: 1, title: 'Підготуватися до семінару', priority: 'Середній', completed: false },
+  { id: 2, title: 'Виконати лабораторну роботу', priority: 'Високий', completed: true },
+  { id: 3, title: 'Завантажити звіт у Moodle', priority: 'Низький', completed: false },
 ];
 
 export default function App() {
@@ -77,7 +77,7 @@ export default function App() {
             onChange={handleTitleChange}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? 'title-error' : 'title-state'}
-            placeholder="Наприклад, підготувати скріншоти лекції"
+            placeholder="Наприклад, купити продукти на вихідні"
           />
 
           {error ? (

@@ -17,11 +17,11 @@ test('platform overview', async ({ page }) => {
 test('draft persists through reload', async ({ page }) => {
   await page.goto('/');
   const title = page.getByLabel('Назва завдання');
-  await title.fill('Перевірити обладнання в аудиторії');
+  await title.fill('Домовитися про зустріч із друзями');
   await page.getByLabel('Нотатка').fill('Чернетка зберігається локально.');
   await expect(page.getByText('AsyncStorage: saved')).toBeVisible({ timeout: 5000 });
   await page.reload();
-  await expect(title).toHaveValue('Перевірити обладнання в аудиторії');
+  await expect(title).toHaveValue('Домовитися про зустріч із друзями');
   await page.screenshot({ path: path.join(OUT, '02-draft-restored.png'), fullPage: true });
 });
 

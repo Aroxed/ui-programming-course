@@ -6,15 +6,16 @@ const root = document.getElementById('app');
 
 const state = {
   tasks: [
-    { id: 41, title: 'Підготувати лекцію', completed: false },
-    { id: 42, title: 'Перевірити лабораторну роботу', completed: true },
+    { id: 41, title: 'Підготуватися до семінару', completed: false },
+    { id: 42, title: 'Виконати лабораторну роботу', completed: true },
+    { id: 43, title: 'Завантажити звіт у Moodle', completed: false },
   ],
   // Вправа 3: це дубльоване значення. Приберіть і обчислюйте з tasks.
   completedCount: 1,
   draft: '',
   // Вправа 2: додайте власника стану фільтра all/active/completed.
 };
-let nextId = 43;
+let nextId = 44;
 
 function render() {
   root.replaceChildren();

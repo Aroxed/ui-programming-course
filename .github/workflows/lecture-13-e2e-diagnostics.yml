@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Lecture 13 dependencies
         working-directory: examples/lecture-13-e2e-diagnostics/app
-        run: npm install
+        run: npm ci
 
       - name: Install Playwright Chromium
         working-directory: examples/lecture-13-e2e-diagnostics/app

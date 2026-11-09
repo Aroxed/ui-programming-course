@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Lecture 12 dependencies
         working-directory: examples/lecture-12-component-testing/app
-        run: npm install
+        run: npm ci
 
       - name: Run real component tests
         working-directory: examples/lecture-12-component-testing/app

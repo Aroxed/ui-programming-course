@@ -18,7 +18,7 @@ describe('TaskEditor', () => {
     render(<TaskEditor />);
 
     expect(screen.getByRole('heading', { name: 'Task editor' })).toBeInTheDocument();
-    expect(screen.getByLabelText('Назва завдання')).toHaveValue('Підготувати презентацію');
+    expect(screen.getByLabelText('Назва завдання')).toHaveValue('Підготуватися до семінару');
     expect(screen.getByRole('checkbox', { name: 'Завдання виконано' })).not.toBeChecked();
     expect(screen.getByRole('button', { name: 'Зберегти' })).toBeEnabled();
   });
@@ -60,7 +60,7 @@ describe('TaskEditor', () => {
 
     expect(await screen.findByRole('status')).toHaveTextContent('Збережено');
     expect(saveTask).toHaveBeenCalledWith({
-      title: 'Підготувати презентацію',
+      title: 'Підготуватися до семінару',
       completed: false
     });
   });

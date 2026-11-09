@@ -12,8 +12,9 @@ app.use(express.json());
 let tasks = [];
 function resetTasks() {
   tasks = [
-    { id: 1, title: 'Перевірити маршрутизацію', completed: false },
-    { id: 2, title: 'Підготувати E2E-сценарій', completed: true },
+    { id: 1, title: 'Підготуватися до семінару', completed: false },
+    { id: 2, title: 'Виконати лабораторну роботу', completed: true },
+    { id: 3, title: 'Завантажити звіт у Moodle', completed: false },
   ];
 }
 resetTasks();

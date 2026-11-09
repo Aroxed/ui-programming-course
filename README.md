@@ -11,6 +11,7 @@ The learning path is practical:
 Навчальний зміст і контрольні заходи розміщено в Moodle. У цьому репозиторії зберігається **єдина актуальна версія коду прикладів**, без копій ZIP у лекціях.
 
 - [Усі приклади Л1–Л15](examples/README.md)
+- [Узгоджені демонстраційні дані TaskApp](docs/example-data.md)
 - [Відповідність лекцій та каталогів коду](docs/course-code-map.md)
 - [ЛР1, ЛР2 та РГР – матеріали й посилання](assignments/README.md)
 - [Лекція 1 – TaskApp з локальним Python HTTP API](examples/lecture-01-ui-system/README.md)
@@ -23,7 +24,7 @@ The learning path is practical:
 ```bash
 git clone -b main https://github.com/Aroxed/ui-programming-course.git
 cd ui-programming-course
-npm install
+npm ci
 npm run doctor
 ```
 
@@ -31,10 +32,12 @@ The root npm examples require Node.js 24 and npm 10+. For the web lectures, use 
 
 ## How to run the lecture examples
 
-Run these commands from the repository root after `npm install` unless a separate setup command is shown:
+Run these commands from the repository root after `npm ci` unless a separate setup command is shown:
 
 | Lecture | Example | Command |
 | --- | --- | --- |
+| 1 | TaskApp: UI, події, стан та HTTP API | `python3 examples/lecture-01-ui-system/server.py` |
+| 2 | Компонентна модель та декомпозиція | `python3 -m http.server 8002 --directory examples/lecture-02-component-model` |
 | 3 | JSX, components, props, composition | `npm run lecture:03` |
 | 4 | State, events, controlled forms | `npm run lecture:04` |
 | 5 | React Router + local HTTP API | `npm run lecture:05` |
@@ -46,6 +49,8 @@ Run these commands from the repository root after `npm install` unless a separat
 | 11 | Electron desktop app | first `npm run setup:11`, then `npm run lecture:11` |
 | 12 | React component testing with Vitest + Testing Library | first `npm run setup:12`; app: `npm run lecture:12`; tests: `npm run test:12` |
 | 13 | Playwright E2E testing and diagnostics | first `npm run setup:13`; app: `npm run lecture:13`; tests: `npm run test:13` |
+| 14 | Доступність, адаптивність, продуктивність | `npm run setup:14`, `npm run lecture:14`, `npm run test:14` |
+| 15 | Супровід UI та перевірка змін | `npm run setup:15`, `npm run lecture:15`, `npm run test:15` |
 
 Stop a running development server with `Ctrl+C`. Electron can also be stopped by closing its application window.
 
@@ -67,6 +72,7 @@ Prerequisite: a working Flutter SDK (`flutter doctor`).
 
 ```bash
 cd examples/lecture-10-comparison/flutter
+flutter create --platforms=web --project-name lecture10_flutter .
 flutter pub get
 flutter run -d chrome
 ```
@@ -75,11 +81,11 @@ flutter run -d chrome
 
 The simplest route is to open `examples/lecture-10-comparison/android-compose/` in Android Studio, let Gradle sync, start an emulator or connect a device, and run the `app` configuration.
 
-For a command-line run, use Java 17, Android SDK 36, Gradle 8.13, and a running emulator/device:
+For a command-line run, use Java 17, Android SDK 36 and a running emulator/device. The included Gradle wrapper downloads Gradle 8.13:
 
 ```bash
 cd examples/lecture-10-comparison/android-compose
-gradle :app:assembleDebug
+./gradlew :app:assembleDebug
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb shell am start -n online.momentguide.lecture10/.MainActivity
 ```

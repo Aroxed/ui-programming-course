@@ -23,7 +23,7 @@ jobs:
 
       - name: Install Lecture 14 dependencies
         working-directory: examples/lecture-14-ui-quality/app
-        run: npm install
+        run: npm ci
 
       - name: Install Playwright Chromium
         working-directory: examples/lecture-14-ui-quality/app

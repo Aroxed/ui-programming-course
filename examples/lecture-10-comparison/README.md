@@ -43,7 +43,7 @@ For Android Compose:
 
 - Java 17
 - Android Studio or Android SDK 36
-- Gradle 8.13 for the CLI path
+- Gradle 8.13 (provided through the included Gradle wrapper)
 - an Android emulator or connected device
 - `adb` available for the CLI install/run path
 
@@ -54,7 +54,7 @@ node --version
 npm --version
 flutter doctor
 adb devices
-gradle --version
+cd examples/lecture-10-comparison/android-compose && ./gradlew --version
 ```
 
 You only need the checks for the stack you are going to run.
@@ -90,6 +90,7 @@ From the repository root:
 
 ```bash
 cd examples/lecture-10-comparison/flutter
+flutter create --platforms=web --project-name lecture10_flutter .
 flutter pub get
 flutter run -d chrome
 ```
@@ -122,13 +123,13 @@ This is the easiest path for students:
 
 ### Option B — command line
 
-Use Java 17, Android SDK 36, Gradle 8.13, and a running emulator/device.
+Use Java 17, Android SDK 36 and a running emulator/device. The Gradle wrapper downloads the required version automatically.
 
 From the repository root:
 
 ```bash
 cd examples/lecture-10-comparison/android-compose
-gradle :app:assembleDebug
+./gradlew :app:assembleDebug
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 adb shell am start -n online.momentguide.lecture10/.MainActivity
 ```

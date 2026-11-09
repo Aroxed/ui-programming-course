@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { saveTask } from './taskApi.js';
 
 export default function TaskEditor() {
-  const [title, setTitle] = useState('Підготувати презентацію');
+  const [title, setTitle] = useState('Підготуватися до семінару');
   const [completed, setCompleted] = useState(false);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');

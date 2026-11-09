@@ -5,14 +5,16 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from threading import Lock
 import json
+import os
 import time
 
 ROOT = Path(__file__).resolve().parent
 TASKS = [
-    {"id": 41, "title": "Підготувати лекцію", "completed": False},
-    {"id": 42, "title": "Перевірити лабораторну роботу", "completed": True},
+    {"id": 41, "title": "Підготуватися до семінару", "completed": False},
+    {"id": 42, "title": "Виконати лабораторну роботу", "completed": True},
+    {"id": 43, "title": "Завантажити звіт у Moodle", "completed": False},
 ]
-NEXT_ID = 43
+NEXT_ID = 44
 LOCK = Lock()
 
 
@@ -66,8 +68,9 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    server = ThreadingHTTPServer(("127.0.0.1", 8000), partial(Handler, directory=str(ROOT)))
-    print("TaskApp: http://localhost:8000", flush=True)
+    port = int(os.environ.get("TASKAPP_PORT", "8000"))
+    server = ThreadingHTTPServer(("127.0.0.1", port), partial(Handler, directory=str(ROOT)))
+    print(f"TaskApp: http://localhost:{port}", flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

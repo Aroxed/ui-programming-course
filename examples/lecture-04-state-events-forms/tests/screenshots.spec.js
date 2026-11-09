@@ -26,18 +26,18 @@ test('02 validation error', async ({ page }) => {
 });
 
 test('03 controlled fields', async ({ page }) => {
-  await page.getByLabel('Назва завдання').fill('Підготувати скріншоти лекції');
+  await page.getByLabel('Назва завдання').fill('Купити продукти на вихідні');
   await page.getByLabel('Пріоритет').selectOption('Високий');
-  await expect(page.getByText('title = "Підготувати скріншоти лекції"')).toBeVisible();
+  await expect(page.getByText('title = "Купити продукти на вихідні"')).toBeVisible();
   await page.screenshot({ path: screenshotPath('03-controlled-fields.png'), fullPage: true });
 });
 
 test('04 immutable update after submit', async ({ page }) => {
-  await page.getByLabel('Назва завдання').fill('Підготувати скріншоти лекції');
+  await page.getByLabel('Назва завдання').fill('Купити продукти на вихідні');
   await page.getByLabel('Пріоритет').selectOption('Високий');
   await page.getByRole('button', { name: 'Додати завдання' }).click();
 
-  await expect(page.getByText('Підготувати скріншоти лекції')).toBeVisible();
+  await expect(page.getByText('Купити продукти на вихідні')).toBeVisible();
   await expect(page.getByLabel('Назва завдання')).toHaveValue('');
   await page.screenshot({ path: screenshotPath('04-task-added.png'), fullPage: true });
 });

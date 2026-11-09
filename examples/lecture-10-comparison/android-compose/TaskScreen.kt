@@ -17,7 +17,7 @@ fun TaskScreen() {
 
     Column(modifier = Modifier.padding(24.dp)) {
         Text(
-            text = "Перевірити обладнання в аудиторії",
+            text = "Підготуватися до семінару",
             style = MaterialTheme.typography.headlineSmall
         )
         Text(if (completed) "Виконано" else "Активне")

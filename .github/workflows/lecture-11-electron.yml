@@ -28,7 +28,7 @@ jobs:
           sudo apt-get install -y xvfb libgtk-3-0 libnss3 libgbm1
 
       - name: Install Electron example
-        run: npm --prefix examples/lecture-11-electron/app install --no-audit --no-fund
+        run: npm --prefix examples/lecture-11-electron/app ci --no-audit --no-fund
 
       - name: Launch real Electron app and capture BrowserWindow
         run: xvfb-run -a npm --prefix examples/lecture-11-electron/app run screenshot -- --no-sandbox

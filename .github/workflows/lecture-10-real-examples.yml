@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - run: npm install
+      - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run screenshots:10:rn
       - uses: actions/upload-artifact@v4
@@ -97,7 +97,7 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
-            gradle -p examples/lecture-10-comparison/android-compose :app:installDebug --stacktrace
+            ./examples/lecture-10-comparison/android-compose/gradlew -p examples/lecture-10-comparison/android-compose :app:installDebug --stacktrace
             adb shell wm size 430x900
             adb shell wm density 160
             adb shell settings put system accelerometer_rotation 0
@@ -107,7 +107,7 @@ jobs:
             sleep 4
             adb shell uiautomator dump /sdcard/lecture10.xml
             adb pull /sdcard/lecture10.xml "$GITHUB_WORKSPACE/lecture10.xml"
-            grep -q 'Перевірити обладнання' "$GITHUB_WORKSPACE/lecture10.xml"
+            grep -q 'Підготуватися до семінару' "$GITHUB_WORKSPACE/lecture10.xml"
             mkdir -p "$GITHUB_WORKSPACE/screenshots/lecture-10"
             adb exec-out screencap -p > "$GITHUB_WORKSPACE/screenshots/lecture-10/android-compose-task.png"
       - uses: actions/upload-artifact@v4

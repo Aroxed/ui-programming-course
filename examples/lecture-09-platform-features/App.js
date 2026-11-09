@@ -76,7 +76,7 @@ export default function App() {
       <StatusBar style="dark" />
       <Text style={s.meta}>Лекція 9 · React Native + Expo</Text>
       <Text style={s.h1}>Платформні можливості</Text>
-      <Text style={s.lead}>Один runnable example: мережа, локальна чернетка, геолокація, камера та локальне нагадування.</Text>
+      <Text style={s.lead}>Цей приклад показує роботу мережі, локальної чернетки, геолокації, камери та нагадувань.</Text>
 
       <View style={s.section} testID="network-section">
         <Text style={s.h2}>Мережа</Text>

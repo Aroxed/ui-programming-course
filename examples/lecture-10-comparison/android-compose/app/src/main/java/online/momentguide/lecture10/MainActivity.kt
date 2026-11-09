@@ -77,7 +77,7 @@ fun TaskScreen() {
             )
             Spacer(Modifier.height(8.dp))
             Text(
-                text = "Перевірити обладнання в аудиторії",
+                text = "Підготуватися до семінару",
                 fontSize = 19.sp,
                 lineHeight = 26.sp
             )

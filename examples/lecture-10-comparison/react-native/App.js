@@ -11,7 +11,7 @@ export default function App() {
 
       <View style={styles.section}>
         <Text style={styles.label}>Завдання</Text>
-        <Text style={styles.title}>Перевірити обладнання в аудиторії</Text>
+        <Text style={styles.title}>Підготуватися до семінару</Text>
         <Text accessibilityLabel="Стан завдання" style={styles.status}>
           {completed ? 'Виконано' : 'Активне'}
         </Text>

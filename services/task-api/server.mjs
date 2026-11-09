@@ -1,9 +1,9 @@
 import http from 'node:http';
 
 let tasks = [
-  { id: 1, title: 'Підготувати приклад маршрутизації', completed: false },
-  { id: 2, title: 'Перевірити API стани', completed: true },
-  { id: 3, title: 'Оновити сторінку деталей', completed: false },
+  { id: 1, title: 'Підготуватися до семінару', completed: false },
+  { id: 2, title: 'Виконати лабораторну роботу', completed: true },
+  { id: 3, title: 'Завантажити звіт у Moodle', completed: false },
 ];
 
 const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type'});res.end(JSON.stringify(data))};

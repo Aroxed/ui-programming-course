@@ -8,7 +8,7 @@ const shot = (name) => {
   return path.join(dir, name);
 };
 
-const firstTaskTitle = 'Підготувати приклад маршрутизації';
+const firstTaskTitle = 'Підготуватися до семінару';
 
 test('loading then list', async ({ page }) => {
   await page.goto('/');

@@ -74,7 +74,7 @@ class _TaskScreenState extends State<TaskScreen> {
                         ),
                         const SizedBox(height: 8),
                         const Text(
-                          'Перевірити обладнання в аудиторії',
+                          'Підготуватися до семінару',
                           style: TextStyle(fontSize: 19, height: 1.35),
                         ),
                         const SizedBox(height: 12),

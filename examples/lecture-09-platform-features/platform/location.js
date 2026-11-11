@@ -1,13 +1,13 @@
 import * as Location from 'expo-location';
 
 export async function readCurrentLocation() {
-  const permission = await Location.requestForegroundPermissionsAsync();
-
-  if (permission.status !== 'granted') {
-    return { status: 'denied' };
-  }
-
   try {
+    const permission = await Location.requestForegroundPermissionsAsync();
+
+    if (permission.status !== 'granted') {
+      return { status: 'denied' };
+    }
+
     const position = await Location.getCurrentPositionAsync({});
     return {
       status: 'ready',
@@ -18,6 +18,9 @@ export async function readCurrentLocation() {
       },
     };
   } catch (error) {
-    return { status: 'error', message: error instanceof Error ? error.message : 'Location error' };
+    return {
+      status: 'error',
+      message: error instanceof Error ? error.message : 'Location error',
+    };
   }
 }

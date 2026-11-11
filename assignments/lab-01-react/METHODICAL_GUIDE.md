@@ -170,6 +170,7 @@ import { useState } from 'react';
 export default function BookForm({ onCreate }) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
+  const [year, setYear] = useState('');
   const [status, setStatus] = useState('planned');
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -181,16 +182,25 @@ export default function BookForm({ onCreate }) {
       return;
     }
 
+    const yearNumber = Number(year);
+    if (!Number.isInteger(yearNumber) || yearNumber < 1450 ||
+        yearNumber > new Date().getFullYear() + 1) {
+      setError('Вкажіть коректний рік видання.');
+      return;
+    }
+
     setError('');
     setSaving(true);
     try {
       await onCreate({
         title: title.trim(),
         author: author.trim(),
+        year: yearNumber,
         status
       });
       setTitle('');
       setAuthor('');
+      setYear('');
       setStatus('planned');
     } catch {
       setError('Не вдалося зберегти книгу.');
@@ -206,6 +216,9 @@ export default function BookForm({ onCreate }) {
       </label>
       <label>Автор
         <input value={author} onChange={event => setAuthor(event.target.value)} />
+      </label>
+      <label>Рік видання
+        <input type="number" value={year} onChange={event => setYear(event.target.value)} />
       </label>
       <label>Статус
         <select value={status} onChange={event => setStatus(event.target.value)}>
@@ -225,7 +238,7 @@ export default function BookForm({ onCreate }) {
 
 `onCreate` – функція зворотного виклику (*callback*), яку передає батьківський компонент. У цьому прикладі вона повинна повертати проміс із результатом серверної операції. Таку функцію студент реалізує при підключенні API.
 
-**Контрольна точка:** порожні поля блокують створення; повідомлення доступне через `role="alert"`; під час запиту кнопка недоступна; після успіху поля очищаються.
+**Контрольна точка:** порожні обов’язкові поля та некоректний рік блокують створення; повідомлення доступне через `role="alert"`; під час запиту кнопка недоступна; після успіху поля очищаються. Правило допустимого року є прикладом для сучасних друкованих книг, а не універсальною вимогою до всіх книжкових колекцій.
 
 ## Крок 6. Налаштуйте маршрутизацію
 
@@ -329,6 +342,33 @@ curl -i http://127.0.0.1:3001/tasks/999
 ```
 
 Очікувані коди: `200`, `200`, `404`. У Л5 показано, як компонент React використовує цей API. В індивідуальній ЛР серверні дані мають належати обраній предметній області.
+
+### Зв’язування форми, HTTP API та переходу до списку
+
+Наведені вище компоненти – окремі фрагменти. Щоб виконати наскрізний сценарій, створіть сторінку `BookCreatePage.jsx`, яка підключає форму до сервісної функції та переходить до списку **лише після успішного POST**:
+
+```jsx
+import { useNavigate } from 'react-router-dom';
+import BookForm from './components/BookForm.jsx';
+import { createBook } from './api/books.js';
+
+export default function BookCreatePage() {
+  const navigate = useNavigate();
+
+  async function handleCreate(book) {
+    await createBook(book);
+    navigate('/books');
+  }
+
+  return <BookForm onCreate={handleCreate} />;
+}
+```
+
+Наведені шляхи імпортів відповідають прикладу, де сторінка розміщена в каталозі `src/`. Якщо вона знаходиться у `src/pages/`, скоригуйте відносні шляхи на `../components/` та `../api/`.
+
+Після переходу `/books` сторінка `BookListPage` повинна **повторно отримати актуальний список** через `getBooks()`, коли відкривається маршрут списку. Створення виконується тільки на сервері, а не шляхом додавання вигаданого запису до локального масиву. Так само `BookDetailsPage` завантажує конкретний запис через `getBook(id)` і розрізняє успіх, відсутній запис та помилку.
+
+Під час тестування перевірте послідовність: `/books/new` → валідація → `POST /books` → успіх → `/books` → нова книга у списку. Саме її використано в прикладах E2E-тестів ЛР2. Для цього потрібен **реальний або контрольований тестовий API книг** з узгодженою структурою даних; навчальний API TaskApp працює з іншою сутністю й не підміняє цей сервіс.
 
 ## Крок 8. Опрацюйте стани завантаження й помилок
 

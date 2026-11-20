@@ -33,6 +33,11 @@ jobs:
       - name: Launch real Electron app and capture BrowserWindow
         run: xvfb-run -a npm --prefix examples/lecture-11-electron/app run screenshot -- --no-sandbox
 
+      - name: Verify storage and native IPC
+        run: |
+          npm --prefix examples/lecture-11-electron/app test
+          xvfb-run -a npm --prefix examples/lecture-11-electron/app run test:desktop -- --no-sandbox
+
       - name: Verify screenshot
         run: test -s screenshots/lecture-11/electron-task-desktop.png
 
@@ -51,5 +56,6 @@ jobs:
             echo 'Screenshot unchanged.'
           else
             git commit -m 'Refresh Lecture 11 Electron runtime screenshot'
+            git pull --rebase origin main
             git push
           fi

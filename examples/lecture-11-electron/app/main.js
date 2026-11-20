@@ -8,6 +8,9 @@ const { normalizeTasks, normalizeBoard, readBoard, writeJson } = require('./stor
 
 const screenshot = process.argv.includes('--screenshot');
 const selfTest = process.argv.includes('--self-test');
+// Capture and self-test use an isolated virtual display in CI.
+// Keep normal desktop launches unchanged.
+if (screenshot || selfTest) app.disableHardwareAcceleration();
 const temporaryProfile = screenshot || selfTest
   ? mkdtempSync(path.join(os.tmpdir(), 'lecture11-'))
   : null;
@@ -163,7 +166,21 @@ app.whenReady().then(() => {
         await waitForBoard();
         if (selfTest) await verifyDesktop();
         if (screenshot) {
-          const image = await win.webContents.capturePage();
+          // The renderer can be ready before the first compositor frame.
+          await win.webContents.executeJavaScript(
+            'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))'
+          );
+          let image;
+          for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+              image = await win.webContents.capturePage();
+              if (!image.isEmpty()) break;
+            } catch (error) {
+              if (attempt === 2) throw error;
+            }
+            await new Promise(resolve => setTimeout(resolve, 300));
+          }
+          if (!image || image.isEmpty()) throw new Error('No rendered frame captured.');
           const target = path.resolve(__dirname, '../../../screenshots/lecture-11/electron-task-desktop.png');
           await fs.mkdir(path.dirname(target), { recursive: true });
           await fs.writeFile(target, image.toPNG());

@@ -25,6 +25,8 @@ groups = {
         "examples/lecture-07-react-native-basics/App.js",
         "services/task-api/server.mjs",
         "examples/lecture-13-e2e-diagnostics/app/server.mjs",
+        "examples/lecture-11-electron/app/storage.js",
+        "assignments/lab-02-testing/example/server.mjs",
     ],
     "first": [
         "examples/lecture-10-comparison/react-native/App.js",
@@ -32,10 +34,6 @@ groups = {
         "examples/lecture-10-comparison/android-compose/TaskScreen.kt",
         "examples/lecture-10-comparison/android-compose/app/src/main/java/online/momentguide/lecture10/MainActivity.kt",
         "examples/lecture-12-component-testing/app/src/TaskEditor.jsx",
-    ],
-    "third": [
-        "examples/lecture-11-electron/app/renderer/renderer.js",
-        "examples/lecture-11-electron/app/renderer/index.html",
     ],
     "test_first": [
         "examples/lecture-05-routing-api/tests/screenshots.spec.js",
@@ -48,7 +46,7 @@ groups = {
 checked = 0
 for group, paths in groups.items():
     required = {"first_3": [a, b, c], "first": [a],
-                "third": [c], "test_first": [a]}[group]
+                "test_first": [a]}[group]
     for name in paths:
         text = (ROOT / name).read_text()
         if not all(value in text for value in required):

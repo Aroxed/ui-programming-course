@@ -1,90 +1,41 @@
-# Lecture 11 — Electron desktop interface
+# Лекція 11. Інтерфейси настільних застосунків на основі вебтехнологій
 
-This example is a small **real Electron desktop application**, not a browser mock-up. It demonstrates the architectural boundary that Lecture 11 focuses on:
+Настільна версія планувальника завдань розвиває приклад лекції 4: форма React, список, пріоритет і стан виконання. Electron додає локальне збереження, імпорт та експорт JSON, системне меню, налаштування компактного списку і сповіщення за дією користувача.
 
-**renderer UI → preload bridge → IPC → main process → operating-system capability**.
+## Запуск
 
-The app lets the user edit one task, toggle its state, save it through a native file dialog, open it again, and inspect the actual Electron/Chromium/Node runtime versions.
+Потрібні Node.js 24, npm 10+ і графічне середовище Windows, macOS або Linux. Із кореня репозиторію:
 
-## Project structure
+    npm run setup:11
+    npm run lecture:11
 
-```text
-app/
-├── main.js                 # Electron main process, BrowserWindow, menu, IPC, dialogs, file access
-├── preload.js              # narrow contextBridge API exposed to the renderer
-├── package.json
-└── renderer/
-    ├── index.html          # desktop UI
-    ├── renderer.js         # browser-side state and events
-    └── styles.css
-```
+Друга команда збирає React за допомогою Vite та запускає Electron. У Linux для Chromium має бути налаштоване системне ізольоване середовище; якщо ОС повідомляє про chrome-sandbox, зверніться до адміністратора середовища. Параметри ізоляції застосунку залишаються увімкненими.
 
-The renderer deliberately has no direct Node.js access. `nodeIntegration` is disabled, `contextIsolation` and `sandbox` are enabled, and the preload script exposes only three specific operations.
+## Структура
 
-## Prerequisites
+    app/
+      main.js              головний процес, вікно, меню, IPC, діалоги
+      preload.js           визначений API для інтерфейсу
+      storage.js           перевірка даних, читання та запис JSON
+      src/App.jsx          React-інтерфейс і обробники
+      src/main.jsx
+      src/styles.css
+      vite.config.mjs
+      tests/
 
-- Node.js 24
-- npm 10+
-- a graphical desktop session
+Файл board.json зберігається в каталозі app.getPath('userData'). Він містить список завдань і налаштування compactMode. Імпортований JSON – масив завдань із полями id, title, priority, completed. Імпорт замінює поточний список після підтвердження, зберігаючи налаштування. Експорт створює окремий JSON-файл. Сповіщення запускається кнопкою, без фонового планувальника.
 
-Electron binaries are installed only for this example, so the root course setup does not become heavier for students who do not run Lecture 11.
+## Пакування
 
-## First setup
+    npm --prefix examples/lecture-11-electron/app run pack
 
-From the repository root:
+Electron Packager створює каталог готового застосунку у app/release для поточної ОС та архітектури. Це збірка, яку можна поширювати каталогом або архівом; створення інсталятора, підписування та автоматичні оновлення потребують окремого налаштування.
 
-```bash
-npm run setup:11
-```
+## Перевірка
 
-Equivalent direct command:
+    npm --prefix examples/lecture-11-electron/app test
+    npm --prefix examples/lecture-11-electron/app exec -- playwright install chromium
+    npm --prefix examples/lecture-11-electron/app run test:ui
+    npm --prefix examples/lecture-11-electron/app run test:desktop
 
-```bash
-npm --prefix examples/lecture-11-electron/app install
-```
-
-## Run the desktop app
-
-From the repository root:
-
-```bash
-npm run lecture:11
-```
-
-Or directly:
-
-```bash
-npm --prefix examples/lecture-11-electron/app start
-```
-
-**Expected result:** a native desktop window opens. The renderer can change the local task state. `Save…` and `Open…` cross the preload/IPC boundary and use Electron's native file dialogs and Node.js file access in the main process.
-
-Stop the app by closing its window or with `Ctrl+C` in the terminal.
-
-## What to inspect
-
-1. In `main.js`, find the `BrowserWindow` options and explain why `nodeIntegration: false`, `contextIsolation: true`, and `sandbox: true` matter.
-2. In `preload.js`, notice that the renderer gets a small explicit `desktopAPI` instead of raw `ipcRenderer`.
-3. In `renderer/renderer.js`, verify that ordinary DOM code does not import `fs`, `path`, or Electron modules.
-4. Trace `saveTask()` from a button click to `ipcRenderer.invoke()`, the main-process handler, the native dialog, and `fs.writeFile()`.
-5. Open **View → Toggle Developer Tools** and inspect the renderer just as you would inspect a web page, while remembering that the main process is a separate runtime.
-
-## Real screenshot
-
-The GitHub Actions workflow launches the actual Electron app under a virtual Linux display and asks Electron itself to capture its `BrowserWindow` with `webContents.capturePage()`.
-
-The generated screenshot is stored at:
-
-```text
-screenshots/lecture-11/electron-task-desktop.png
-```
-
-This is a capture from the real Electron runtime, not an HTML-only preview.
-
-## Security point of the example
-
-A tempting beginner implementation is to enable Node.js directly in the renderer and call `fs.writeFile()` from page code. The course example intentionally does **not** do that. The renderer is treated as less trusted UI code, while privileged operations live in the main process and are reachable only through a narrow preload API.
-
-## What Lecture 11 is trying to teach
-
-Electron is useful not because it makes a web page look like a desktop window, but because it combines a web UI with controlled access to desktop capabilities. The engineering task is to design that boundary deliberately: window lifecycle, IPC contract, file access, native dialogs, security, packaging, updates, memory footprint, and platform-specific behaviour.
+Модульні тести перевіряють файлове збереження та перевірку даних. Тест інтерфейсу використовує заміну desktopAPI у браузері. Нативна перевірка в Electron перевіряє IPC, запис, перевірку даних та ізоляцію Node.js в окремому тимчасовому профілі. Системні діалоги, сповіщення та запуск пакованої збірки перевіряють вручну на цільовій ОС.

@@ -1,0 +1,11 @@
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -90,7 +90,7 @@
+     });
+     if (!response.ok) throw new Error('HTTP ' + response.status);
+     const created = await response.json();
+-    navigate('/tasks/' + created.task.id);
++    navigate('/tasks/' + created.id);
+   }
+   return <Layout><h1>Нове завдання</h1><TaskForm onCreate={createTask} /></Layout>;
+ }

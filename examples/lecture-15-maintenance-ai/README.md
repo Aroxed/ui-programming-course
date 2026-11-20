@@ -1,47 +1,25 @@
-# Lecture 15 — UI maintenance and generative AI
+# Лекція 15. Супровід інтерфейсів користувача та генеративний ШІ
 
-This example supports the final course lecture on controlled maintenance, refactoring, diagnostics, technical explanation, and responsible use of generative AI.
+Розвиток планувальника лекції 14. Користувач керує станом виконання завдань у списку; статистика, фільтри й сторінки узгоджені з актуальними даними. Зберігаються відбір за пріоритетом і очищення фільтрів.
 
-The runnable app is intentionally small. The maintenance case is described in `CHANGE_REQUEST.md`: an existing search/status interface receives a new priority filter while preserving its previous contract.
+## Запуск
 
-## Run
+Із кореневого каталогу:
 
-From the repository root:
+    npm run setup:15
+    npm run lecture:15
 
-```bash
-npm run setup:15
-npm run lecture:15
-```
+Адреса: http://127.0.0.1:4175/. Стан у пам'яті зберігається до перезавантаження сторінки. Зупиніть сервер перед виконанням:
 
-Open `http://127.0.0.1:4175/`.
+    npm run test:15
 
-Run the verification suite:
+## Етапи супроводу
 
-```bash
-npm run test:15
-```
+1. Аналіз припущення про сталий набір: список і статистика залежать від масиву рівня модуля.
+2. Рефакторинг: перенесення даних до стану, явне передавання набору, актуальні похідні значення. До функціонального розширення проходять усі 12 наявних перевірок.
+3. Функціональна зміна: незмінне оновлення одного завдання, керований прапорець, актуальні похідні дані, правило першої сторінки та керування фокусом.
+4. Регресійні та приймальні тести: 18 перевірок.
 
-The Playwright suite verifies that:
+Файли: CHANGE_REQUEST.md, AI_ASSISTED_WORKFLOW.md, app/src/App.jsx, app/src/taskData.js, app/tests/evolution.spec.js (нові перевірки), app/tests/maintenance.spec.js, app/tests/quality-regression.spec.js, app/tests/taskData.spec.js.
 
-- previous search behavior still works;
-- previous status filtering still works;
-- the new priority filter works;
-- filters work in combination;
-- Clear filters restores the previous default state;
-- a verified screenshot can be produced from the running app.
-
-## Files to inspect
-
-- `CHANGE_REQUEST.md` — the maintenance request and acceptance criteria;
-- `AI_ASSISTED_WORKFLOW.md` — how generative AI may assist without replacing engineering verification;
-- `app/src/App.jsx` — UI state and controls;
-- `app/src/taskModel.js` — filtering logic separated from presentation;
-- `app/tests/maintenance.spec.js` — regression and acceptance tests.
-
-## Learning purpose
-
-The student should be able to reconstruct the maintenance reasoning:
-
-**existing contract → requested change → impact surface → minimal patch → regression checks → manual verification → explanation of the final decision**.
-
-The same workflow applies whether a patch is written manually or proposed by a generative AI tool. AI output is evidence neither of correctness nor of understanding; the repository, tests, runtime behavior, and the student's explanation remain the basis for verification.
+Практична задача: додати стан відкладення з узгодженими переходами, статистикою та відбором, зберігаючи чинні вимоги.

@@ -1,0 +1,94 @@
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -15,6 +15,7 @@
+ }
+ 
+ function TaskList() {
++  const [filter, setFilter] = useState('all');
+   const [state, setState] = useState({ status: 'loading', tasks: [], error: '' });
+ 
+   useEffect(() => {
+@@ -29,15 +30,30 @@
+     return () => { active = false; };
+   }, []);
+ 
++  const visibleTasks = state.tasks.filter(task =>
++    filter === 'all' || task.completed === (filter === 'completed')
++  );
++
+   return (
+     <Layout>
+       <h1>Завдання</h1>
++      {state.status === 'ready' && (
++        <div className="filters">
++          <label htmlFor="task-filter">Стан виконання</label>
++          <select id="task-filter" value={filter} onChange={event => setFilter(event.target.value)}>
++            <option value="all">Усі завдання</option>
++            <option value="active">Активні</option>
++            <option value="completed">Виконані</option>
++          </select>
++          <p role="status">Знайдено: {visibleTasks.length}</p>
++        </div>
++      )}
+       {state.status === 'loading' && <p role="status">Завантаження…</p>}
+       {state.status === 'error' && <p role="alert">{state.error}</p>}
+-      {state.status === 'ready' && state.tasks.length === 0 && <p>Завдань немає.</p>}
+-      {state.status === 'ready' && state.tasks.length > 0 && (
++      {state.status === 'ready' && visibleTasks.length === 0 && <p>Завдань немає.</p>}
++      {state.status === 'ready' && visibleTasks.length > 0 && (
+         <ul className="task-list">
+-          {state.tasks.map(task => (
++          {visibleTasks.map(task => (
+             <li key={task.id}>
+               <Link to={`/tasks/${task.id}`}>{task.title}</Link>
+               <span>{task.completed ? 'виконано' : 'активне'}</span>
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -25,3 +25,5 @@
+   .topbar, .task-list li { flex-wrap: wrap; }
+   .task-list li { overflow-wrap: anywhere; }
+ }
++.filters { margin-bottom: 1rem; }
++.filters select { max-width: 100%; font: inherit; padding: .4rem; }
+--- /dev/null
++++ b/tests/e2e/filter.spec.js
+@@ -0,0 +1,39 @@
++import { test, expect } from '@playwright/test';
++
++test.beforeEach(async ({ request }) => {
++  expect((await request.post('/api/reset')).status()).toBe(204);
++});
++
++test('filters tasks by completion status and restores all tasks', async ({ page }) => {
++  await page.goto('/tasks');
++  const filter = page.getByLabel('Стан виконання');
++  await expect(page.getByRole('status')).toHaveText('Знайдено: 3');
++  await filter.selectOption('completed');
++  await expect(page.getByRole('status')).toHaveText('Знайдено: 1');
++  await expect(page.locator('.task-list a')).toHaveText(['Виконати лабораторну роботу']);
++  await filter.selectOption('active');
++  await expect(page.locator('.task-list a')).toHaveText([
++    'Підготуватися до семінару', 'Завантажити звіт у Moodle'
++  ]);
++  await filter.selectOption('all');
++  await expect(page.getByRole('status')).toHaveText('Знайдено: 3');
++});
++
++test('keyboard filter works in a narrow viewport', async ({ page }) => {
++  await page.setViewportSize({ width: 320, height: 800 });
++  await page.goto('/tasks');
++  await expect(page.getByRole('status')).toHaveText('Знайдено: 3');
++  await page.keyboard.press('Tab');
++  await expect(page.getByRole('link', { name: 'Планувальник' })).toBeFocused();
++  await page.keyboard.press('Tab');
++  await expect(page.getByRole('link', { name: 'Нове завдання' })).toBeFocused();
++  await page.keyboard.press('Tab');
++  const filter = page.getByLabel('Стан виконання');
++  await expect(filter).toBeFocused();
++  await page.keyboard.press('End');
++  await expect(filter).toHaveValue('completed');
++  await expect(page.getByRole('status')).toHaveText('Знайдено: 1');
++  expect(await page.evaluate(() =>
++    document.documentElement.scrollWidth <= document.documentElement.clientWidth
++  )).toBe(true);
++});

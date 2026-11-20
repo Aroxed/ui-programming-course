@@ -9,6 +9,7 @@
     "test:maintenance": "playwright test --reporter=line"
   },
   "dependencies": {
+    "@axe-core/playwright": "latest",
     "@playwright/test": "latest",
     "@vitejs/plugin-react": "latest",
     "react": "19.2.3",

@@ -1,56 +1,37 @@
-# Lecture 14 — UI quality and performance
+# Лекція 14. Якість і продуктивність інтерфейсів користувача
 
-Runnable example for **«Лекція 14. Якість і продуктивність UI-рішень»**.
+Модуль огляду навчальних завдань продовжує наскрізний приклад планувальника. Користувач може визначити обсяг невиконаної роботи, знайти завдання за частиною назви, відібрати їх за станом, впорядкувати за пріоритетом або назвою та переглянути список сторінками по 20 записів. Набір із 1200 завдань сформовано локально для відтворюваного дослідження. Це модуль перегляду даних, який може бути інтегрований із редактором і сервісом збереження з попередніх лекцій.
 
-The example deliberately keeps the visual design simple. It is used to inspect three quality dimensions:
+## Запуск
 
-- accessibility: semantic controls, keyboard focus, skip link, labels, live status;
-- responsive behavior: the same interface at desktop and 390 px viewport widths;
-- React render behavior: a baseline mode versus an optimized mode using `useMemo` and `React.memo`.
+Із кореневого каталогу репозиторію:
 
-## Run locally
+    npm run setup:14
+    npm run lecture:14
 
-From the repository root:
+Адреса застосунку: http://127.0.0.1:4174/
 
-```bash
-npm run setup:14
-npm run lecture:14
-```
+## Перевірка
 
-Open `http://127.0.0.1:4174/?mode=optimized`.
+Зупиніть сервер розроблення та виконайте:
 
-Run the verification suite:
+    npm run test:14
 
-```bash
-npm run test:14
-```
+Тести Playwright перевіряють функціональність обох реалізацій, статистику, клавіатурну навігацію, окремі правила доступності axe-core, адаптивність на ширинах 320, 390, 640 і 641 CSS-пікселів та кількість повторних обчислень. За потреби в Linux/macOS можна вказати окремий порт, наприклад:
 
-The Playwright suite performs a real Chromium run and checks:
+    LECTURE14_TEST_PORT=4175 npm run test:14
 
-1. no **serious** or **critical** automated Axe accessibility violations;
-2. keyboard access to the skip link and semantic form controls;
-3. no horizontal overflow at a 390 px viewport;
-4. stable search behavior;
-5. that an unrelated state update causes list work in baseline mode but not in optimized mode.
+## Порівняння реалізацій
 
-## Performance demonstration
+За звичайною адресою відкривається оптимізована реалізація. Адреса /?implementation=baseline відкриває базову реалізацію з тим самим інтерфейсом. Спільні функції відбору, сортування та компонування забезпечують однакову функціональність. Параметр measure=1 вмикає навчальні лічильники, доступні через window.__qualityMetrics(). Наприклад:
 
-The example exposes small deterministic counters through `window.__qualityMetrics()` only for the course testbed. `filterRuns` counts executions of the list filter and `rowRenders` counts renders of task rows.
+    /?implementation=baseline&measure=1
+    /?implementation=optimized&measure=1
 
-In baseline mode, opening the explanatory text changes unrelated parent state and causes the visible list to be recalculated and all rows to render again. In optimized mode, `useMemo` preserves the filtered collection while `React.memo` prevents unchanged rows from rendering again.
+При відкритті детальної статистики початкові умови відбору завдань залишаються незмінними. У Chromium зафіксовано прирости лічильників selections та rowRenders: базова реалізація — 1 і 20, оптимізована — 0 і 0. Це кількість викликів функцій, а не часові показники. Час взаємодії досліджують окремо засобами профілювання; лічильники при цьому можна вимкнути.
 
-This is **not** presented as a universal optimization recipe. The lecture explains that memoization has a cost and should be introduced after identifying meaningful work through measurement or profiling.
+Автоматизована перевірка axe-core не замінює ручну оцінку доступності за WCAG.
 
-## Accessibility scope
+## Матеріали перевірки
 
-The automated Axe test is a useful regression check, not proof of WCAG conformance. The lecture also requires manual keyboard inspection and explains why focus order, understandable labels, zoom, screen-reader behavior and task completion still require human evaluation.
-
-## Evidence
-
-GitHub Actions builds the real app, runs Playwright + Axe in Chromium, and stores evidence under `screenshots/lecture-14/`:
-
-- `quality-optimized.png`
-- `quality-mobile.png`
-- `quality-output.txt`
-
-The screenshots come from this runnable example rather than from a mockup or external documentation.
+GitHub Actions виконує тести Chromium і зберігає знімки quality-optimized.png, quality-mobile.png та звіт quality-output.txt у screenshots/lecture-14/. Знімки відображають реальний навчальний застосунок.

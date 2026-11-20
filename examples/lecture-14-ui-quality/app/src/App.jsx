@@ -1,142 +1,142 @@
 import React, { memo, useMemo, useState } from 'react';
+import { tasks, selectTasks, summarizeTasks } from './taskData.js';
+import { countWork } from './metrics.js';
 
-const tasks = Array.from({ length: 120 }, (_, index) => ({
-  id: index + 1,
-  title: `Завдання ${index + 1}: перевірити інтерфейс`,
-  completed: index % 3 === 0,
-}));
+const PAGE_SIZE = 20;
+const summary = summarizeTasks(tasks);
 
-const metrics = { filterRuns: 0, rowRenders: 0 };
-window.__qualityMetrics = () => ({ ...metrics });
-window.__resetQualityMetrics = () => {
-  metrics.filterRuns = 0;
-  metrics.rowRenders = 0;
-};
-
-function filterTasks(items, query) {
-  metrics.filterRuns += 1;
-  const normalized = query.trim().toLowerCase();
-  if (!normalized) return items;
-  return items.filter(task => task.title.toLowerCase().includes(normalized));
+function deriveTasks(query, status, sort) {
+  countWork('selections');
+  return selectTasks(tasks, query, status, sort);
 }
 
 function TaskRow({ task }) {
-  metrics.rowRenders += 1;
+  countWork('rowRenders');
   return (
     <li className="task-row">
       <span>{task.title}</span>
-      <span>{task.completed ? 'виконано' : 'активне'}</span>
+      <span className="task-meta">
+        <span>Пріоритет: {task.priority}</span>
+        <span>{task.completed ? 'Виконано' : 'Активне'}</span>
+      </span>
     </li>
   );
 }
 
 const MemoTaskRow = memo(TaskRow);
 
-export default function App() {
-  const params = new URLSearchParams(window.location.search);
-  const initialMode = params.get('mode') === 'baseline' ? 'baseline' : 'optimized';
-  const [mode, setMode] = useState(initialMode);
+function useDashboardState() {
   const [query, setQuery] = useState('');
-  const [helpOpen, setHelpOpen] = useState(false);
+  const [status, setStatus] = useState('all');
+  const [sort, setSort] = useState('priority');
+  const [page, setPage] = useState(1);
+  const [statsOpen, setStatsOpen] = useState(false);
 
-  const optimized = mode === 'optimized';
-  const memoizedTasks = useMemo(() => filterTasks(tasks, query), [query]);
-  const visibleTasks = optimized ? memoizedTasks : filterTasks(tasks, query);
-  const Row = optimized ? MemoTaskRow : TaskRow;
-
-  function changeMode(nextMode) {
-    metrics.filterRuns = 0;
-    metrics.rowRenders = 0;
-    setMode(nextMode);
-    const next = new URL(window.location.href);
-    next.searchParams.set('mode', nextMode);
-    window.history.replaceState({}, '', next);
+  function changeFilter(setter, value) {
+    setter(value);
+    setPage(1);
   }
+
+  return { query, status, sort, page, statsOpen, setQuery, setStatus,
+    setSort, setPage, setStatsOpen, changeFilter };
+}
+
+function Dashboard({ state, visibleTasks, Row }) {
+  const pageCount = Math.max(1, Math.ceil(visibleTasks.length / PAGE_SIZE));
+  const page = Math.min(state.page, pageCount);
+  const first = (page - 1) * PAGE_SIZE;
+  const pageTasks = visibleTasks.slice(first, first + PAGE_SIZE);
 
   return (
     <>
       <a className="skip-link" href="#content">До основного вмісту</a>
       <header className="site-header">
-        <div>
-          <p className="eyebrow">Лекція 14 · Quality Lab</p>
-          <h1>Якість і продуктивність UI</h1>
-        </div>
+        <h1>Планувальник завдань</h1>
+        <p>Огляд навчальних завдань та їх виконання</p>
       </header>
-
-      <main id="content" className="layout" tabIndex="-1">
-        <section className="controls" aria-labelledby="controls-title">
-          <h2 id="controls-title">Налаштування прикладу</h2>
-
-          <fieldset>
-            <legend>Режим рендерингу</legend>
-            <label>
-              <input
-                type="radio"
-                name="mode"
-                value="baseline"
-                checked={mode === 'baseline'}
-                onChange={() => changeMode('baseline')}
-              />
-              Базовий
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="mode"
-                value="optimized"
-                checked={mode === 'optimized'}
-                onChange={() => changeMode('optimized')}
-              />
-              Оптимізований
-            </label>
-          </fieldset>
-
-          <label className="search-label" htmlFor="task-search">Пошук завдань</label>
-          <input
-            id="task-search"
-            type="search"
-            value={query}
-            onChange={event => setQuery(event.target.value)}
-            placeholder="Наприклад, 24"
-          />
-
+      <main id="content" tabIndex={-1}>
+        <section className="summary" aria-labelledby="summary-title">
+          <h2 id="summary-title">Статистика виконання</h2>
+          <dl className="stats">
+            <div><dt>Усього</dt><dd>{summary.total}</dd></div>
+            <div><dt>Активні</dt><dd>{summary.active}</dd></div>
+            <div><dt>Виконані</dt><dd>{summary.completed}</dd></div>
+          </dl>
+          <label htmlFor="progress">Виконано {Math.round(summary.completed / summary.total * 100)} %</label>
+          <progress id="progress" value={summary.completed} max={summary.total} />
           <button
             type="button"
-            aria-expanded={helpOpen}
-            aria-controls="quality-help"
-            onClick={() => setHelpOpen(value => !value)}
+            aria-expanded={state.statsOpen}
+            aria-controls="statistics-details"
+            onClick={() => state.setStatsOpen(value => !value)}
           >
-            {helpOpen ? 'Сховати пояснення' : 'Показати пояснення'}
+            {state.statsOpen ? 'Згорнути статистику' : 'Детальна статистика'}
           </button>
-
-          {helpOpen && (
-            <p id="quality-help" className="help-text">
-              Ця кнопка змінює стан, який не пов’язаний зі списком. У базовому режимі список
-              обчислюється і рендериться повторно. В оптимізованому режимі useMemo і React.memo
-              зберігають попередній результат, доки query і task objects не змінилися.
-            </p>
-          )}
+          <p id="statistics-details" hidden={!state.statsOpen}>
+            Активні завдання високого пріоритету: {summary.highActive}
+          </p>
         </section>
-
-        <section className="results" aria-labelledby="results-title">
-          <div className="results-heading">
-            <h2 id="results-title">Завдання</h2>
-            <p role="status" aria-live="polite">Знайдено: {visibleTasks.length}</p>
-          </div>
-
-          {visibleTasks.length > 0 ? (
-            <ul className="task-list">
-              {visibleTasks.map(task => <Row key={task.id} task={task} />)}
-            </ul>
-          ) : (
-            <p>За цим запитом завдань не знайдено.</p>
-          )}
-        </section>
+        <div className="layout">
+          <section className="controls" aria-labelledby="controls-title">
+            <h2 id="controls-title">Пошук і фільтри</h2>
+            <label htmlFor="task-search">Пошук завдань</label>
+            <input id="task-search" type="search" value={state.query}
+              onChange={event => state.changeFilter(state.setQuery, event.target.value)}
+              placeholder="Наприклад, Бази даних" />
+            <label htmlFor="task-status">Стан виконання</label>
+            <select id="task-status" value={state.status}
+              onChange={event => state.changeFilter(state.setStatus, event.target.value)}>
+              <option value="all">Усі завдання</option>
+              <option value="active">Активні</option>
+              <option value="completed">Виконані</option>
+            </select>
+            <label htmlFor="task-sort">Сортування</label>
+            <select id="task-sort" value={state.sort}
+              onChange={event => state.changeFilter(state.setSort, event.target.value)}>
+              <option value="priority">За пріоритетом</option>
+              <option value="title">За назвою</option>
+              <option value="id">За номером</option>
+            </select>
+          </section>
+          <section className="results" aria-labelledby="results-title">
+            <div className="results-heading">
+              <h2 id="results-title">Завдання</h2>
+              <p role="status">Знайдено: {visibleTasks.length}</p>
+            </div>
+            {pageTasks.length ? (
+              <>
+                <ul className="task-list">
+                  {pageTasks.map(task => <Row key={task.id} task={task} />)}
+                </ul>
+                <nav aria-label="Сторінки завдань" className="pagination">
+                  <button disabled={page === 1} onClick={() => state.setPage(page - 1)}>Попередня</button>
+                  <span>Сторінка {page} з {pageCount}</span>
+                  <button disabled={page === pageCount} onClick={() => state.setPage(page + 1)}>Наступна</button>
+                </nav>
+              </>
+            ) : <p>За цим запитом завдань не знайдено.</p>}
+          </section>
+        </div>
       </main>
-
-      <footer className="site-footer">
-        <p>Навчальний приклад для перевірки accessibility, responsive layout і render behavior.</p>
-      </footer>
     </>
   );
+}
+
+function BaselineDashboard() {
+  const state = useDashboardState();
+  const visibleTasks = deriveTasks(state.query, state.status, state.sort);
+  return <Dashboard state={state} visibleTasks={visibleTasks} Row={TaskRow} />;
+}
+
+function OptimizedDashboard() {
+  const state = useDashboardState();
+  const { query, status, sort } = state;
+  const visibleTasks = useMemo(() => deriveTasks(query, status, sort), [query, status, sort]);
+  return <Dashboard state={state} visibleTasks={visibleTasks} Row={MemoTaskRow} />;
+}
+
+export default function App() {
+  // A separate implementation is selected only by the experiment URL.
+  const baseline = new URLSearchParams(window.location.search).get('implementation') === 'baseline';
+  return baseline ? <BaselineDashboard /> : <OptimizedDashboard />;
 }

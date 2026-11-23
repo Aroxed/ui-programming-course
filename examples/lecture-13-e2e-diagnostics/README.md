@@ -11,7 +11,7 @@ This example is used in Lecture 13 of the **User Interface Programming** course.
 - form validation, successful POST, HTTP 500 handling and route transitions;
 - test isolation through `/api/reset`;
 - traces, screenshots and video retained on failure;
-- diagnosis of an integration defect where the frontend assumes the wrong JSON response shape.
+- testing an API response-shape contract and diagnosing navigation through browser evidence.
 
 ## Run locally
 
@@ -34,15 +34,15 @@ The E2E command builds the application and starts the production-style local ser
 
 ## Diagnostic case
 
-The lecture records a real CI failure from the first version of the example. The API returns a created task as:
+The API returns a created task in the following structure:
 
 ```json
 { "id": 3, "title": "...", "completed": false }
 ```
 
-The initial UI incorrectly attempted to read `created.task.id`. The HTTP request therefore succeeded with **201**, but navigation to the new task failed. Playwright exposed the mismatch through the failed URL/heading assertion, while Network/response inspection showed that the backend operation itself had succeeded.
+For a diagnostic exercise, consider what happens if client code reads `created.task.id`: the HTTP request succeeds with **201**, but the client cannot obtain the identifier needed to navigate to the new task. Playwright URL and heading assertions reveal the discrepancy, while Network/response inspection helps identify the correct response structure.
 
-The corrected code uses `created.id`.
+The working example reads `created.id`.
 
 ## Evidence
 

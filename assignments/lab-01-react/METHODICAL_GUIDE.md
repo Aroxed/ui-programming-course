@@ -6,7 +6,7 @@
 
 **Інструменти:** Node.js LTS, npm, Git, React, Vite, React Router, Browser DevTools, React Developer Tools, погоджений HTTP API.
 
-**Джерело вимог:** активність **«ЛР1. Розробка клієнтської частини вебзастосунку»** в Moodle. Саме вона визначає індивідуальний варіант, обов'язкові функції, порядок здавання й максимум **16 балів**. Методичні вказівки допомагають реалізувати завдання.
+**Джерело вимог:** активність **«ЛР1. Розроблення компонентної клієнтської частини вебзастосунку засобами React»** в Moodle. Саме вона визначає індивідуальний варіант, обов'язкові функції, порядок здавання й максимум **16 балів**. Методичні вказівки допомагають реалізувати завдання.
 
 **Вихідні приклади:** [компоненти (Л3)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-03-react-basics), [стан і форми (Л4)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-04-state-events-forms), [маршрути й API (Л5)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-05-routing-api), [спільний стан (Л6)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-06-state-management).
 

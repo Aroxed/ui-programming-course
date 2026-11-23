@@ -6,7 +6,7 @@
 
 **Можливі технології:** React Native, Flutter, Kotlin/Jetpack Compose, Electron. Інший стек дозволяється після погодження. Для перевірки потрібне відповідне середовище: Android Studio/емулятор, фізичний пристрій, Flutter SDK або настільна ОС.
 
-**Джерело вимог:** активність **«РГР. Мобільний застосунок за індивідуальним варіантом»** у Moodle. Вона визначає варіанти, мінімальну функціональність, необхідність PDF-звіту та **16-бальну** шкалу оцінювання. Для виконання умови допуску до іспиту за РГР потрібно отримати щонайменше **10 балів**.
+**Джерело вимог:** активність **«РГР. Індивідуальний проєкт із розроблення інтерфейсу користувача»** у Moodle. Вона визначає варіанти, мінімальну функціональність, необхідність PDF-звіту та **16-бальну** шкалу оцінювання. Для виконання умови допуску до іспиту за РГР потрібно отримати щонайменше **10 балів**.
 
 **Навчальні приклади:** [React Native (Л7)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-07-react-native-basics), [навігація та дані (Л8)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-08-navigation-state-data), [платформні можливості (Л9)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-09-platform-features), [порівняння трьох стеків (Л10)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-10-comparison), [Electron (Л11)](https://github.com/Aroxed/ui-programming-course/tree/main/examples/lecture-11-electron).
 

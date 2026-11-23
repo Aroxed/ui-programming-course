@@ -12,7 +12,7 @@ The learning path is practical:
 
 - [Усі приклади Л1–Л15](examples/README.md)
 - [Узгоджені демонстраційні дані TaskApp](docs/example-data.md)
-- [Відповідність лекцій та каталогів коду](docs/course-code-map.md)
+- [Мапа програмних прикладів до лекцій](docs/course-code-map.md)
 - [ЛР1, ЛР2 та РГР – матеріали й посилання](assignments/README.md)
 - [Лекція 1 – TaskApp з локальним Python HTTP API](examples/lecture-01-ui-system/README.md)
 - [Лекція 2 – компонентна декомпозиція без React](examples/lecture-02-component-model/README.md)
@@ -160,7 +160,7 @@ Run the production-style E2E suite:
 npm run test:13
 ```
 
-The dedicated [Lecture 13 README](examples/lecture-13-e2e-diagnostics/README.md) explains the browser/API boundary and the diagnostic case. The lecture records a real first CI failure caused by a frontend/API response-shape mismatch, together with Playwright screenshot/trace evidence, and the corrected run where all four scenarios pass.
+The dedicated [Lecture 13 README](examples/lecture-13-e2e-diagnostics/README.md) explains the browser/API boundary and a response-contract diagnostic example. The Playwright suite verifies four user scenarios and provides screenshots and traces for debugging.
 
 GitHub Actions preserves failure diagnostics (screenshot, video and trace) as workflow artifacts and commits verified successful evidence under `screenshots/lecture-13/`.
 

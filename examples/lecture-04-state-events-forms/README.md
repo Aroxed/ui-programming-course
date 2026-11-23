@@ -46,20 +46,3 @@ Open the app, press `F12`, and switch to **Components**.
 4. Switch to **Profiler** only to identify which components render after the interaction; detailed profiling is covered later in the course.
 
 React Developer Tools: https://react.dev/learn/react-developer-tools
-
-## Generate course screenshots
-
-After installing the Playwright browser once:
-
-```bash
-npx playwright install chromium
-npm run screenshots:04
-```
-
-The screenshot scenarios are deterministic and are written to:
-
-```text
-screenshots/lecture-04/
-```
-
-The repository CI runs the same scenarios. This keeps the images in the lecture tied to executable source code instead of manually prepared mockups.

@@ -1,5 +1,15 @@
 {
-  "name":"@course/lecture-05-routing-api","private":true,
-  "scripts":{"dev":"vite","build":"vite build","screenshots":"playwright test"},
-  "dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest","react-router":"latest","@playwright/test":"latest"}
+  "name": "@course/lecture-05-routing-api",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router": "latest"
+  }
 }

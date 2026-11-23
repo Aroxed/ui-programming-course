@@ -14,11 +14,9 @@ The point is not to prove that the three stacks “look the same”. The identic
 
 ## Implementations
 
-- `android-compose/` — a real Android application written in Kotlin + Jetpack Compose. CI builds the APK, installs it in an Android emulator, verifies the UI text with UIAutomator, and takes a device screenshot.
-- `react-native/` — a runnable Expo/React Native application. The root command `npm run lecture:10:rn` starts its Expo Web target; Playwright captures that real runtime.
-- `flutter/` — a real Dart + Flutter application. CI runs `flutter build web`, serves the build, and captures the real Flutter Web runtime.
-
-The React Native and Flutter screenshots are explicitly **web targets**. They are not presented as native Android/iOS captures. The Android Compose screenshot is captured from an actual Android emulator.
+- `android-compose/` — a native Android application written in Kotlin and Jetpack Compose.
+- `react-native/` — a runnable Expo/React Native application. The root command `npm run lecture:10:rn` starts its Expo Web target.
+- `flutter/` — a Dart and Flutter application which can run in Chrome.
 
 ## Prerequisites
 
@@ -73,16 +71,6 @@ Expo starts the web target. Open the local URL shown in the terminal if the brow
 **Expected result:** the Task screen appears with its current status and a control that toggles the local `completed` state. The label changes after interaction.
 
 Stop the development server with `Ctrl+C`.
-
-### Regenerate the React Native screenshot
-
-From the repository root:
-
-```bash
-npm run screenshots:10:rn
-```
-
-This uses Playwright against the real Expo Web runtime.
 
 ## Run Flutter / Web
 
@@ -159,27 +147,3 @@ Do not rank the three stacks by a single synthetic benchmark. Compare the same c
 7. **Long-term cost** — platform-specific code, dependencies, testing, upgrades and hiring.
 
 The goal of Lecture 10 is to make a justified technology choice, not to identify a universal winner.
-
-## CI verification
-
-The dedicated GitHub Actions workflow builds and runs all three implementations.
-
-It verifies them differently because the runtimes are genuinely different:
-
-- **Android Compose:** build APK → start Android emulator → install APK → launch app → verify UI with UIAutomator → capture device screenshot with `adb screencap`.
-- **React Native:** start Expo Web → open it in Playwright → interact with the Task screen → capture screenshot.
-- **Flutter:** build Flutter Web → serve the generated build → open it in a browser → capture screenshot.
-
-Generated runtime screenshots are stored under:
-
-```text
-screenshots/lecture-10/
-```
-
-Current files:
-
-```text
-android-compose-task.png
-react-native-task.png
-flutter-task.png
-```

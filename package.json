@@ -2,7 +2,7 @@
   "name": "ui-programming-course",
   "version": "0.2.3",
   "private": true,
-  "description": "Runnable examples and local testbed for the User Interface Programming course",
+  "description": "Runnable examples for the User Interface Programming course",
   "workspaces": [
     "examples/*",
     "examples/lecture-10-comparison/react-native",
@@ -31,16 +31,7 @@
     "test:14": "npm --prefix examples/lecture-14-ui-quality/app run build && npm --prefix examples/lecture-14-ui-quality/app run test:quality",
     "setup:15": "npm --prefix examples/lecture-15-maintenance-ai/app ci && npm --prefix examples/lecture-15-maintenance-ai/app exec playwright install chromium",
     "lecture:15": "npm --prefix examples/lecture-15-maintenance-ai/app run dev",
-    "test:15": "npm --prefix examples/lecture-15-maintenance-ai/app run build && npm --prefix examples/lecture-15-maintenance-ai/app run test:maintenance",
-    "screenshots:03": "npm run screenshots --workspace=@course/lecture-03-react-basics",
-    "screenshots:04": "npm run screenshots --workspace=@course/lecture-04-state-events-forms",
-    "screenshots:05": "npm run screenshots --workspace=@course/lecture-05-routing-api",
-    "screenshots:06": "npm run screenshots --workspace=@course/lecture-06-state-management",
-    "screenshots:07": "npm run screenshots --workspace=@course/lecture-07-react-native-basics",
-    "screenshots:08": "npm run screenshots --workspace=@course/lecture-08-navigation-state-data",
-    "screenshots:09": "npm run screenshots --workspace=@course/lecture-09-platform-features",
-    "screenshots:10:rn": "npm run screenshots --workspace=@course/lecture-10-react-native",
-    "test:intro": "node scripts/test-intro.mjs"
+    "test:15": "npm --prefix examples/lecture-15-maintenance-ai/app run build && npm --prefix examples/lecture-15-maintenance-ai/app run test:maintenance"
   },
   "devDependencies": {
     "concurrently": "latest"

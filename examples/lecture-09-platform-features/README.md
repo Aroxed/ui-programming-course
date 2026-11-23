@@ -43,18 +43,3 @@ On Android/iOS:
 5. Put the app in the background and wait for the local notification.
 
 Remote push notifications are not part of this runnable example. They require push credentials and a development build; the lecture discusses them separately.
-
-## Generated screenshots
-
-```bash
-npm run screenshots:09
-```
-
-Playwright captures four reproducible states from the running Expo Web application:
-
-- initial platform overview;
-- draft restored after reload;
-- geolocation granted with deterministic browser coordinates;
-- offline state while the entered data remains visible.
-
-The geolocation and offline screenshots are produced by changing the real browser context, not by hard-coding those states in the application.

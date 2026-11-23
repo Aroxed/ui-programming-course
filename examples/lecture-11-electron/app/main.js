@@ -6,12 +6,9 @@ const { mkdtempSync, rmSync } = require('node:fs');
 const { pathToFileURL } = require('node:url');
 const { normalizeTasks, normalizeBoard, readBoard, writeJson } = require('./storage');
 
-const screenshot = process.argv.includes('--screenshot');
 const selfTest = process.argv.includes('--self-test');
-// Capture and self-test use an isolated virtual display in CI.
-// Keep normal desktop launches unchanged.
-if (screenshot || selfTest) app.disableHardwareAcceleration();
-const temporaryProfile = screenshot || selfTest
+if (selfTest) app.disableHardwareAcceleration();
+const temporaryProfile = selfTest
   ? mkdtempSync(path.join(os.tmpdir(), 'lecture11-'))
   : null;
 if (temporaryProfile) {
@@ -160,32 +157,11 @@ app.whenReady().then(() => {
   Menu.setApplicationMenu(createApplicationMenu());
   createWindow();
 
-  if (screenshot || selfTest) {
+  if (selfTest) {
     win.webContents.once('did-finish-load', async () => {
       try {
         await waitForBoard();
         if (selfTest) await verifyDesktop();
-        if (screenshot) {
-          // The renderer can be ready before the first compositor frame.
-          await win.webContents.executeJavaScript(
-            'new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))'
-          );
-          let image;
-          for (let attempt = 0; attempt < 3; attempt++) {
-            try {
-              image = await win.webContents.capturePage();
-              if (!image.isEmpty()) break;
-            } catch (error) {
-              if (attempt === 2) throw error;
-            }
-            await new Promise(resolve => setTimeout(resolve, 300));
-          }
-          if (!image || image.isEmpty()) throw new Error('No rendered frame captured.');
-          const target = path.resolve(__dirname, '../../../screenshots/lecture-11/electron-task-desktop.png');
-          await fs.mkdir(path.dirname(target), { recursive: true });
-          await fs.writeFile(target, image.toPNG());
-          console.log('Screenshot written to ' + target);
-        }
         app.quit();
       } catch (error) {
         console.error(error);

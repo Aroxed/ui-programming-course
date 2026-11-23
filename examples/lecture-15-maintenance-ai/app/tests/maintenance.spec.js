@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { selectTasks, tasks } from '../src/taskData.js';
-import { mkdir } from 'node:fs/promises';
 
 test('priority is combined with search and status, and sorting remains effective', async ({ page }) => {
   for (const implementation of ['baseline', 'optimized']) {
@@ -59,15 +58,4 @@ test('priority predicate has independently specified expected results', () => {
   expect(selectTasks(items,'Звіт','active','id','Високий').map(t => t.id)).toEqual([3]);
   expect(selectTasks(items,'Звіт','active','id').map(t => t.id)).toEqual([1,3]);
   expect(items.map(t => t.id)).toEqual([1,2,3,4]);
-});
-
-test('captures the maintained planner', async ({ page }) => {
-  await page.setViewportSize({width:1280,height:1000});
-  await page.goto('/');
-  await page.getByLabel('Пошук завдань').fill('Бази даних');
-  await page.getByLabel('Стан виконання').selectOption('active');
-  await page.getByLabel('Пріоритет', {exact:true}).selectOption('Високий');
-  await expect(page.getByRole('status')).toHaveText('Знайдено: 100');
-  await mkdir('../screenshots/lecture-15', {recursive:true});
-  await page.screenshot({path:'../screenshots/lecture-15/maintenance-priority-filter.png'});
 });

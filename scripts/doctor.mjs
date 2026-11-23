@@ -33,7 +33,6 @@ try {
 report(existsSync('package.json'), 'course root', 'package.json found');
 report(existsSync('examples'), 'examples directory', 'examples/ found');
 report(existsSync('services'), 'services directory', 'services/ found');
-report(existsSync('screenshots'), 'screenshots directory', 'screenshots/ found');
 
 console.log('\nUI Programming Course — environment check\n');
 for (const check of checks) {

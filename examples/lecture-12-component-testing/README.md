@@ -53,12 +53,3 @@ Notice that tests do **not** inspect React state variables or component internal
 The save service is the external boundary. Tests mock `taskApi.js`, so the component can be checked deterministically without a real backend.
 
 ## Real verification
-
-GitHub Actions runs the actual Vitest suite, builds the app, launches the Vite preview and captures the running component with Playwright.
-
-Generated evidence is stored under:
-
-```text
-screenshots/lecture-12/component-testing.png
-screenshots/lecture-12/vitest-output.txt
-```

@@ -1,10 +1,6 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import fs from 'node:fs/promises';
-import path from 'node:path';
 import { tasks, selectTasks, summarizeTasks } from '../src/taskData.js';
-
-const evidenceDir = path.resolve(process.cwd(), '../../../screenshots/lecture-14');
 
 test('initial and expanded views have no serious or critical automated accessibility violations', async ({ page }) => {
   await page.goto('/');
@@ -80,12 +76,10 @@ test('summary describes the complete task collection independently of filters', 
 });
 
 test('responsive layout preserves controls and avoids horizontal overflow', async ({ page }) => {
-  await fs.mkdir(evidenceDir, { recursive: true });
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/');
   await page.getByLabel('Пошук завдань').fill('Бази даних');
   await page.getByLabel('Стан виконання').selectOption('active');
-  await page.screenshot({ path: path.join(evidenceDir, 'quality-optimized.png') });
   for (const width of [320, 390, 640, 641]) {
     await page.setViewportSize({ width, height: 1000 });
     const hasHorizontalOverflow = await page.evaluate(() =>
@@ -96,6 +90,5 @@ test('responsive layout preserves controls and avoids horizontal overflow', asyn
     const b = await page.locator('.results').boundingBox();
     if (width <= 640) expect(b.y).toBeGreaterThanOrEqual(a.y + a.height);
     else expect(b.x).toBeGreaterThanOrEqual(a.x + a.width);
-    if (width === 390) await page.screenshot({ path: path.join(evidenceDir, 'quality-mobile.png') });
   }
 });

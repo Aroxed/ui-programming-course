@@ -33,5 +33,3 @@
 Автоматизована перевірка axe-core не замінює ручну оцінку доступності за WCAG.
 
 ## Матеріали перевірки
-
-GitHub Actions виконує тести Chromium і зберігає знімки quality-optimized.png, quality-mobile.png та звіт quality-output.txt у screenshots/lecture-14/. Знімки відображають реальний навчальний застосунок.

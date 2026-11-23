@@ -10,7 +10,7 @@ This example is used in Lecture 13 of the **User Interface Programming** course.
 - semantic locators (`getByRole`, `getByLabel`);
 - form validation, successful POST, HTTP 500 handling and route transitions;
 - test isolation through `/api/reset`;
-- traces, screenshots and video retained on failure;
+- Playwright traces for investigating failed tests;
 - testing an API response-shape contract and diagnosing navigation through browser evidence.
 
 ## Run locally
@@ -43,7 +43,3 @@ The API returns a created task in the following structure:
 For a diagnostic exercise, consider what happens if client code reads `created.task.id`: the HTTP request succeeds with **201**, but the client cannot obtain the identifier needed to navigate to the new task. Playwright URL and heading assertions reveal the discrepancy, while Network/response inspection helps identify the correct response structure.
 
 The working example reads `created.id`.
-
-## Evidence
-
-GitHub Actions runs the real E2E suite in Chromium. On failure Playwright retains trace, screenshot and video. On a successful run the workflow stores the console output and a screenshot of the completed create-and-navigate scenario in `screenshots/lecture-13/`.

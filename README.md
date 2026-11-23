@@ -1,226 +1,55 @@
-# User Interface Programming Course
+# Програмування інтерфейсів користувача
 
-Runnable examples, local services, screenshots, and supporting materials for the distance course **«Програмування інтерфейсів користувача»**.
+Навчальні приклади до курсу «Програмування інтерфейсів користувача». Тексти лекцій, завдання й оцінювання розміщені в Moodle. У цьому репозиторії містяться вихідний код та інструкції його запуску.
 
-The learning path is practical:
+## Навчальні матеріали
 
-**read the lecture → run the example locally → inspect it in DevTools → compare with the lecture screenshot → change the code → observe and diagnose the result.**
+- [Приклади до лекцій Л1–Л15](examples/README.md)
+- [Мапа прикладів за темами лекцій](docs/course-code-map.md)
+- [ЛР1, ЛР2 та РГР](assignments/README.md)
+- [Спільні демонстраційні дані TaskApp](docs/example-data.md)
 
-## Мапа навчальних матеріалів Л1–Л15
+## Підготовка
 
-Навчальний зміст і контрольні заходи розміщено в Moodle. У цьому репозиторії зберігається **єдина актуальна версія коду прикладів**, без копій ZIP у лекціях.
-
-- [Усі приклади Л1–Л15](examples/README.md)
-- [Узгоджені демонстраційні дані TaskApp](docs/example-data.md)
-- [Мапа програмних прикладів до лекцій](docs/course-code-map.md)
-- [ЛР1, ЛР2 та РГР – матеріали й посилання](assignments/README.md)
-- [Лекція 1 – TaskApp з локальним Python HTTP API](examples/lecture-01-ui-system/README.md)
-- [Лекція 2 – компонентна декомпозиція без React](examples/lecture-02-component-model/README.md)
-
-Для Л1 і Л2 достатньо Python 3 та браузера, не потрібно встановлювати npm. Л3–Л15 мають окремі README й свої інструменти запуску.
-
-## First setup
+Для Л1–Л2 достатньо Python 3 і браузера. Для Л3–Л15 потрібні інструменти, зазначені у README відповідної лекції. Для прикладів на Node.js використовуйте Node.js 24 і npm 10+.
 
 ```bash
-git clone -b main https://github.com/Aroxed/ui-programming-course.git
+git clone https://github.com/Aroxed/ui-programming-course.git
 cd ui-programming-course
 npm ci
 npm run doctor
 ```
 
-The root npm examples require Node.js 24 and npm 10+. For the web lectures, use Browser DevTools (`F12`) and install React Developer Tools. Lecture 6 also uses Redux DevTools. For native React Native/Expo runs, use the built-in React Native DevTools opened from the Developer Menu or with `J` in the Expo terminal.
+## Запуск
 
-## How to run the lecture examples
+Наведені команди виконуються з кореня репозиторію. Для прикладів Л11–Л15 додатково запустіть вказану команду налаштування.
 
-Run these commands from the repository root after `npm ci` unless a separate setup command is shown:
-
-| Lecture | Example | Command |
+| Лекція | Що вивчаємо | Команда |
 | --- | --- | --- |
-| 1 | TaskApp: UI, події, стан та HTTP API | `python3 examples/lecture-01-ui-system/server.py` |
-| 2 | Компонентна модель та декомпозиція | `python3 -m http.server 8002 --directory examples/lecture-02-component-model` |
-| 3 | JSX, components, props, composition | `npm run lecture:03` |
-| 4 | State, events, controlled forms | `npm run lecture:04` |
-| 5 | React Router + local HTTP API | `npm run lecture:05` |
-| 6 | Context + Redux Toolkit + local state | `npm run lecture:06` |
-| 7 | React Native basics through Expo Web | `npm run lecture:07` |
-| 8 | React Native navigation, params and local API | `npm run lecture:08` |
-| 9 | Storage, network, location, camera and notifications | `npm run lecture:09` |
-| 10 | React Native comparison example through Expo Web | `npm run lecture:10:rn` |
-| 11 | Electron desktop app | first `npm run setup:11`, then `npm run lecture:11` |
-| 12 | React component testing with Vitest + Testing Library | first `npm run setup:12`; app: `npm run lecture:12`; tests: `npm run test:12` |
-| 13 | Playwright E2E testing and diagnostics | first `npm run setup:13`; app: `npm run lecture:13`; tests: `npm run test:13` |
-| 14 | Доступність, адаптивність, продуктивність | `npm run setup:14`, `npm run lecture:14`, `npm run test:14` |
-| 15 | Супровід UI та перевірка змін | `npm run setup:15`, `npm run lecture:15`, `npm run test:15` |
+| Л1 | UI, події, стан і HTTP API | `python3 examples/lecture-01-ui-system/server.py` |
+| Л2 | Компонентна модель | `python3 -m http.server 8002 --directory examples/lecture-02-component-model` |
+| Л3 | React, JSX, props | `npm run lecture:03` |
+| Л4 | Стан, події та форми | `npm run lecture:04` |
+| Л5 | Маршрутизація і API | `npm run lecture:05` |
+| Л6 | Context та Redux Toolkit | `npm run lecture:06` |
+| Л7 | Основи React Native | `npm run lecture:07` |
+| Л8 | Навігація, стан і дані | `npm run lecture:08` |
+| Л9 | Платформні можливості | `npm run lecture:09` |
+| Л10 | Порівняння Android, React Native і Flutter | `npm run lecture:10:rn` |
+| Л11 | Electron | `npm run setup:11; npm run lecture:11` |
+| Л12 | Тестування компонентів | `npm run setup:12; npm run lecture:12; npm run test:12` |
+| Л13 | E2E-тестування | `npm run setup:13; npm run lecture:13; npm run test:13` |
+| Л14 | Доступність і продуктивність | `npm run setup:14; npm run lecture:14; npm run test:14` |
+| Л15 | Супровід інтерфейсів | `npm run setup:15; npm run lecture:15; npm run test:15` |
 
-Stop a running development server with `Ctrl+C`. Electron can also be stopped by closing its application window.
+Для Л10 приклади Flutter та Android запускаються окремо за [інструкцією до лекції](examples/lecture-10-comparison/README.md). Сервер розробки зупиняється через `Ctrl+C`.
 
-Lecture 5 starts both the local API and the Vite client. Lecture 8 also starts the local API together with the Expo Web client. Lectures 7–9 use Expo Web from the root command; the same projects can be opened through Expo tooling on supported mobile environments. Lecture 9 deliberately separates what can be reproduced in Expo Web from native-only behavior: local notification scheduling is checked on Android/iOS rather than simulated in the browser.
+## Самостійна робота з кодом
 
-### Lecture 10: run all three implementations
+1. Прочитайте відповідну лекцію в Moodle.
+2. Запустіть приклад за його README.
+3. Знайдіть у коді обробник події, зміну стану чи HTTP-запит.
+4. Змініть програму та перевірте поведінку в браузері або застосунку.
+5. Використовуйте Browser DevTools (F12), React Developer Tools, React Native DevTools чи Electron Developer Tools відповідно до технології.
 
-Lecture 10 compares the same small Task screen in three stacks. The React Native version is part of the root npm workspace; Android Compose and Flutter use their own SDK toolchains.
-
-**React Native / Expo Web**
-
-```bash
-npm run lecture:10:rn
-```
-
-**Flutter / Web**
-
-Prerequisite: a working Flutter SDK (`flutter doctor`).
-
-```bash
-cd examples/lecture-10-comparison/flutter
-flutter create --platforms=web --project-name lecture10_flutter .
-flutter pub get
-flutter run -d chrome
-```
-
-**Android / Jetpack Compose**
-
-The simplest route is to open `examples/lecture-10-comparison/android-compose/` in Android Studio, let Gradle sync, start an emulator or connect a device, and run the `app` configuration.
-
-For a command-line run, use Java 17, Android SDK 36 and a running emulator/device. The included Gradle wrapper downloads Gradle 8.13:
-
-```bash
-cd examples/lecture-10-comparison/android-compose
-./gradlew :app:assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-adb shell am start -n online.momentguide.lecture10/.MainActivity
-```
-
-The dedicated [Lecture 10 README](examples/lecture-10-comparison/README.md) explains the prerequisites, expected result, and CI verification in more detail.
-
-GitHub Actions builds and runs all three Lecture 10 variants and stores the resulting screenshots under `screenshots/lecture-10/`. The Android screenshot comes from an Android emulator; the React Native and Flutter screenshots are explicitly web targets and are not presented as native Android/iOS captures.
-
-### Lecture 11: run the real Electron desktop app
-
-Electron has its own binary and is intentionally installed separately so the ordinary root setup for Lectures 3–10 stays lighter.
-
-Install it once:
-
-```bash
-npm run setup:11
-```
-
-Then run the app:
-
-```bash
-npm run lecture:11
-```
-
-The application uses a real `BrowserWindow`, a sandboxed renderer, a `preload.js` bridge, IPC, native open/save dialogs, and main-process file access. Use **View → Toggle Developer Tools** to inspect the renderer. The detailed [Lecture 11 README](examples/lecture-11-electron/README.md) explains the architecture and the code path from a renderer event to an operating-system operation.
-
-A GitHub Actions workflow launches the actual Electron app under a virtual Linux display and generates `screenshots/lecture-11/electron-task-desktop.png` with Electron's own `webContents.capturePage()` API.
-
-### Lecture 12: run the component and its tests
-
-Lecture 12 uses a deliberately small React component so the test intent stays visible. Its dependencies are installed separately:
-
-```bash
-npm run setup:12
-```
-
-Run the component in Vite:
-
-```bash
-npm run lecture:12
-```
-
-Run the real Vitest + React Testing Library suite:
-
-```bash
-npm run test:12
-```
-
-The tests exercise accessible queries, user interaction, validation, asynchronous success and asynchronous failure. The save service is mocked at the external boundary, while the component is exercised through visible controls rather than internal state. See the [Lecture 12 README](examples/lecture-12-component-testing/README.md).
-
-GitHub Actions runs the same suite and stores verified evidence under `screenshots/lecture-12/`: the real component screenshot and the real verbose Vitest output.
-
-### Lecture 13: run the E2E suite and inspect diagnostics
-
-Lecture 13 uses a small React + React Router application together with a real local HTTP API. Playwright launches Chromium and checks navigation, validation, task creation, a 500 response and the resulting UI states.
-
-Install the separate Playwright dependencies and Chromium once:
-
-```bash
-npm run setup:13
-```
-
-Run the application:
-
-```bash
-npm run lecture:13
-```
-
-Run the production-style E2E suite:
-
-```bash
-npm run test:13
-```
-
-The dedicated [Lecture 13 README](examples/lecture-13-e2e-diagnostics/README.md) explains the browser/API boundary and a response-contract diagnostic example. The Playwright suite verifies four user scenarios and provides screenshots and traces for debugging.
-
-GitHub Actions preserves failure diagnostics (screenshot, video and trace) as workflow artifacts and commits verified successful evidence under `screenshots/lecture-13/`.
-
-## Screenshot commands
-
-The application screenshots for the npm-based examples can be regenerated from the repository root:
-
-```bash
-npm run screenshots:03
-npm run screenshots:04
-npm run screenshots:05
-npm run screenshots:06
-npm run screenshots:07
-npm run screenshots:08
-npm run screenshots:09
-npm run screenshots:10:rn
-```
-
-Android and Flutter Lecture 10 screenshots, the Electron Lecture 11 screenshot, Lecture 12 verification evidence, and Lecture 13 E2E evidence are generated by dedicated GitHub Actions workflows because those examples require separate runtime/toolchain or test setup.
-
-## Repository structure
-
-- `examples/` — self-contained lecture snapshots and comparison sources
-- `services/` — local services used by examples
-- `screenshots/` — images generated from the running course examples
-- `scripts/` — environment checks and helper tooling
-
-## Visual principle
-
-The examples intentionally look simple. Their purpose is to make the programming concept easy to read and reproduce.
-
-- Prefer ordinary page structure before adding layout systems.
-- Use one readable typeface and mostly neutral colours.
-- Use native-looking form controls where possible.
-- Avoid dashboard composition, decorative gradients, large shadows, pill badges, and UI decoration that is unrelated to the concept being taught.
-- Keep CSS short enough that a student can understand why each rule exists.
-
-## DevTools learning path
-
-- Lecture 1: Browser DevTools basics — Elements, Console, Network, Sources.
-- Lecture 3: React Developer Tools — component tree and props.
-- Lecture 4: React Developer Tools — state/Hooks during interaction.
-- Lecture 5: Browser Network panel — request, status, headers, response, timing.
-- Lecture 6: React Developer Tools + Redux DevTools — local/Context/Redux state.
-- Lecture 7: React Native DevTools — Components, inspector, Console.
-- Lecture 8: React Native DevTools — navigation plus Network for API requests.
-- Lecture 9: device/platform state — network transitions, persistent storage, permissions and location/camera behavior.
-- Lecture 10: compare equivalent UI/state code across Android Compose, React Native, and Flutter before choosing a stack.
-- Lecture 11: Electron DevTools for the renderer plus explicit tracing across preload/IPC into the main process.
-- Lecture 12: component tests with Vitest + Testing Library — accessible queries, user events, async states and mocks.
-- Lecture 13: Playwright E2E tests — real browser navigation and API calls, failure screenshot/video/trace, Network/Console inspection, and root-cause analysis.
-
-## Screenshot principle
-
-A screenshot in the course should demonstrate the code the student can actually run from this repository.
-
-- UI screenshots are generated from the corresponding runnable lecture example.
-- DevTools screenshots should also be captured from that same example whenever technically possible: the component names, props, state, routes, API URLs, Redux actions, and data visible in the screenshot must match the lecture code.
-- A generic screenshot from external documentation is not used as evidence of what the course example does.
-- External documentation images may be used only when a tool cannot reasonably be captured from the course testbed, and must then be clearly labelled as a reference image rather than as the result of the example.
-- If a current real DevTools capture is not yet available, the lecture keeps the hands-on DevTools exercise and the official documentation link, but does not substitute an unrelated screenshot.
-
-Playwright regenerates the application screenshots whenever example code changes. DevTools capture tooling is developed separately because browser and native debugger chrome cannot always be captured by ordinary page-level Playwright screenshots.
+Чинні вимоги та критерії оцінювання лабораторних робіт і РГР визначені у Moodle.

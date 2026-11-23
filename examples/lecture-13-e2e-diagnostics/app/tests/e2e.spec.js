@@ -1,8 +1,4 @@
 import { test, expect } from '@playwright/test';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-
-const evidenceDir = path.resolve('../../../screenshots/lecture-13');
 
 test.beforeEach(async ({ request }) => {
   const response = await request.post('/api/reset');
@@ -50,8 +46,6 @@ test('creates a task through the real API and opens its details', async ({ page 
   await expect(page).toHaveURL(/\/tasks\/4$/);
   await expect(page.getByRole('heading', { name: 'Запланувати зустріч з одногрупниками' })).toBeVisible();
 
-  await fs.mkdir(evidenceDir, { recursive: true });
-  await page.screenshot({ path: path.join(evidenceDir, 'e2e-create-success.png'), fullPage: true });
 });
 
 test('shows a user-facing error when the API returns 500', async ({ page }) => {

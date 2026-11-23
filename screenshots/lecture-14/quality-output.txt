@@ -17,4 +17,4 @@ optimized { selections: 0, rowRenders: 0 }
 [5/7] tests/quality.spec.js:73:1 › summary describes the complete task collection independently of filters
 [6/7] tests/quality.spec.js:82:1 › responsive layout preserves controls and avoids horizontal overflow
 [7/7] tests/taskData.spec.js:9:1 › selection honors explicit expected values and preserves source order
-  7 passed (6.7s)
+  7 passed (5.1s)
